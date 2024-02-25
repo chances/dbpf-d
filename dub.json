@@ -2,9 +2,10 @@
   "name": "dbpf",
   "description": "Read and write Database Packed File (DBPF) archives",
   "license": "MIT",
-  "copyright": "Copyright © 2024, Chance Snow",
+  "copyright": "Copyright © 2024, Chance Snow; Copyright © 1998-2002 Denis Auroux",
   "authors": [
-    "Chance Snow <git@chancesnow.me>"
+    "Chance Snow <git@chancesnow.me>",
+    "Denis Auroux <auroux@math.polytechnique.fr>"
   ],
   "targetType": "staticLibrary",
   "targetPath": "bin"
