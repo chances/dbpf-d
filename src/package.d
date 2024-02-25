@@ -171,6 +171,9 @@ struct File(bool Compressed = Flag!"compressed" = false, size_t size) {
   /// Exists only if this file is compressed.
   static if (Compressed) FileHeader header;
   /// Contents of this file.
+  ///
+  /// See <a href="https://www.wiki.sc4devotion.com/index.php?title=List_of_File_Formats">List of File Formats</a> for
+  /// a list of the file types that may exist within a DBPF archive.
   ubyte[size] contents;
 }
 
