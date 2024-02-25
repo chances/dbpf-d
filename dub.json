@@ -1,0 +1,10 @@
+{
+  "name": "dbpf",
+  "description": "Read and write Database Packed File (DBPF) archives",
+  "license": "MIT",
+  "copyright": "Copyright © 2024, Chance Snow",
+  "authors": [
+    "Chance Snow <git@chancesnow.me>"
+  ],
+  "targetType": "staticLibrary"
+}
