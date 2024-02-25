@@ -10,7 +10,7 @@
 /// License: MIT License
 module dbpf;
 
-import std.traits : isNumeric;
+import std.traits : isFloatingPoint;
 
 /// Determines whether `V` is a valid DBPF version number.
 /// See_Also: `Version`
@@ -20,10 +20,10 @@ import std.traits : isNumeric;
 ///   $(LI `2.0` seen in Spore, The Sims 3)
 ///   $(LI `3.0` seen in SimCity (2013))
 /// )
-enum isValidVersion(V) = isNumeric!V && (V == 1 || V == 1.1 || V == 2 || V == 3);
+enum isValidDbpfVersion(V) = isFloatingPoint!V && (V == 1 || V == 1.1 || V == 2 || V == 3);
 
 /// See_Also: <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF#Header">DBPF Header</a> (SC4D Encyclopedia)
-struct Header(float V = 1) if (isValidVersion!V) {
+struct Header(float V = 1) if (isValidDbpfVersion!V) {
   ///
   static const identifier = "DBPF";
   ///
