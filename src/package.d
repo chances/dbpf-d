@@ -80,6 +80,15 @@ struct Header(float V = 1) if (isValidVersion!V) {
   }
   /// Reserved for future use.
   char[24] reserved;
+
+  /// Computed, human-readable Index table version.
+  Version indexVersion() const @property {
+    static if (V < 2) return Version(this.indexMajorVersion);
+    else {
+      uint minor = this.indexMinorVersion == 0 ? 0 : this.indexMinorVersion - 1;
+      return Version(this.indexMajorVersion, minor);
+    }
+  }
 }
 
 /// Remarks: $(UL
