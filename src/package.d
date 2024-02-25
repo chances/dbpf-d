@@ -22,9 +22,11 @@ import std.traits : isNumeric;
 /// )
 enum isValidVersion(V) = isNumeric!V && (V == 1 || V == 1.1 || V == 2 || V == 3);
 
-///
+/// See_Also: <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF#Header">DBPF Header</a> (SC4D Encyclopedia)
 struct Header(float V = 1) if (isValidVersion!V) {
+  ///
   static const identifier = "DBPF";
+  ///
   Version version_;
   static if (V >= 2) {
     /// Unused, possibly reserved.
@@ -40,13 +42,15 @@ struct Header(float V = 1) if (isValidVersion!V) {
   /// Date modified. Unix timestamp.
   /// Remarks: Unused in DBPF v`1.1`.
   uint dateModified;
-  /// Version of the index table.
-  static if (V < 2) const uint majorVersion = 7;
+  /// Major version of the Index table.
+  /// Remarks: Always `7` in The Sims 2 and SimCity 4. If this is a DBPF v`2.0` archive, then it is `0` for Spore.
+  /// See_Also: `indexMinorVersion`
+  static if (V < 2) const uint indexMajorVersion = 7;
   /// ditto
-  else const uint majorVersion = 0;
+  else const uint indexMajorVersion = 0;
   /// Number of entries in the Index Table.
   uint indexEntryCount;
-  /// Location of first index entry.
+  /// Offset to Index table, in bytes. Location of first index entry.
   static if (V < 2) uint indexOffset;
   /// Size of the Index table, in bytes.
   uint indexSize;
@@ -57,9 +61,19 @@ struct Header(float V = 1) if (isValidVersion!V) {
     uint holeOffset;
     /// Size of the hole Record, in bytes.
     uint holeSize;
+    /// Minor version of the Index table.
+    /// Remarks:
+    /// $(P In The Sims 2 for DBPF v`1.1+`.)
+    /// $(P In DBPF >= v`2.0`, this is `3`, otherwise:)
+    /// $(UL
+    ///   $(LI `1` = v`7.0`)
+    ///   $(LI `2` = v`7.1`)
+    /// )
+    /// See_Also: `indexMajorVersion`
+    uint indexMinorVersion;
   }
   static if (V >= 2) {
-    /// Offset to Index table, in bytes.
+    /// Offset to Index table, in bytes. Location of first index entry.
     uint indexOffset;
     ///
     uint unknown4;
