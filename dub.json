@@ -6,5 +6,6 @@
   "authors": [
     "Chance Snow <git@chancesnow.me>"
   ],
-  "targetType": "staticLibrary"
+  "targetType": "staticLibrary",
+  "targetPath": "bin"
 }

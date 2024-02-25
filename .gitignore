@@ -4,10 +4,10 @@ docs.json
 __dummy.html
 docs/
 /dbpf
-dbpf.so
-dbpf.dylib
+*dbpf.so
+*dbpf.dylib
 dbpf.dll
-dbpf.a
+*dbpf.a
 dbpf.lib
 dbpf-test-*
 *.exe
