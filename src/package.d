@@ -91,11 +91,17 @@ struct Header(float V = 1) if (isValidDbpfVersion!V) {
   }
 }
 
-/// Remarks: $(UL
+/// Remarks: For DBPF version specifiers:
+/// $(UL
 ///   $(LI `1.0` seen in SimCity 4, The Sims 2)
 ///   $(LI `1.1` seen in The Sims 2)
 ///   $(LI `2.0` seen in Spore, The Sims 3)
 ///   $(LI `3.0` seen in SimCity(2013))
+/// )
+/// For DBPF Index table version specifiers:
+/// $(UL
+///   $(LI `7.0` seen in SimCity 4, The Sims 2)
+///   $(LI `7.1` seen in The Sims 2)
 /// )
 struct Version {
   ///
@@ -112,4 +118,70 @@ struct Version {
   uint major;
   ///
   uint minor;
+}
+
+/// Determines whether `V` is a valid DBPF Index table version number.
+/// See_Also: `Version`
+enum isValidIndexVersion(V) = isFloatingPoint!V && (V == 0 || V == 7.0 || V == 7.1);
+
+/// Index Tables list the contents of a DBPF package.
+/// Remarks:
+/// The index table is very similar to the directory file
+/// (<a href="https://www.wiki.sc4devotion.com/index.php?title=DIR">DIR</a>) within a DPBF package. The difference
+/// being that the Index Table lists every file in the package, whereas the directory file only lists the compressed
+/// files within the package. <a href="https://www.wiki.sc4devotion.com/index.php?title=Reader">Reader</a> presents a
+/// directory file that is a mashup of these two entities, listing every file in the package, as well as indicating
+/// whether or not that particular file is compressed.
+/// See_Also: <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF#Index_Table">DBPF Index Table</a> (SC4D Encyclopedia)
+struct IndexTable(float DBPF = 1, float V = 7.0) if (isValidDbpfVersion!DBPF && isValidIndexVersion!V) {
+  /// Type ID.
+  uint typeId;
+  /// Group ID.
+  uint groupId;
+  /// Instance ID.
+  uint instanceId;
+  /// Resource ID.
+  static if (V >= 7.1) uint resourceId;
+  /// Location offset of a file in the archive, in bytes.
+  uint offset;
+  /// Size of a file, in bytes.
+  uint size;
+}
+
+/// A Hole Table contains the location and size of all holes in a DBPF file.
+/// Remarks:
+/// Holes are created when the game deletes something from a DBPF. The holes themselves are simply junk data of the
+/// appropriate length to fill the hole.
+struct HoleTable {
+  /// Location offset, in bytes.
+  uint location;
+  /// Size, in bytes.
+  uint size;
+}
+
+/// Files fill the bulk of a DBPF archive.
+///
+/// A file header exists only if this file is compressed.
+/// Remarks:
+/// Each file is either uncompressed or compressed. To check if a file is compressed you first need to read the DIR
+/// file, if it exists. If no <a href="https://www.wiki.sc4devotion.com/index.php?title=DIR">DIR</a> entry exists,
+/// then no files within the package are compressed.
+struct File(bool Compressed = Flag!"compressed" = false, size_t size) {
+  alias header this;
+  /// Exists only if this file is compressed.
+  static if (Compressed) FileHeader header;
+  /// Contents of this file.
+  ubyte[size] contents;
+}
+
+/// Occurs before `File.contents` only if the `File` is compressed.
+struct FileHeader {
+  /// Compressed size of the file, in bytes.
+  uint compressedSize;
+  /// Compression ID, i.e. (`0x10FB`). Always
+  /// <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF_Compression">QFS Compression</a>.
+  /// See_Also: <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF_Compression">DBPF Compression</a> (SC4D Encyclopedia)
+  const ushort compressionId = 0x10FB;
+  /// Uncompressed size of the file, in bytes.
+  ubyte[3] uncompressedSize;
 }
