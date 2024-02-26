@@ -35,10 +35,10 @@ enum DirectoryId {
 ///
 struct Header {
   /// Always `SHPI`.
-  static const identifer = "SHPI"c.representation;
+  static const identifier = "SHPI"c.representation;
 align(1):
   /// Always `SHPI`.
-  ubyte[4] magic = identifer.to!(ubyte[4]);
+  ubyte[4] magic = identifier.to!(ubyte[4]);
   ///
   uint size;
   ///
@@ -208,7 +208,7 @@ Fsh read(ubyte[] file) {
   import std.conv : castFrom, to;
   import std.typecons : tuple;
 
-  enforce(file.startsWith(Header.identifer), "Input is not a FSH document.");
+  enforce(file.startsWith(Header.identifier), "Input is not a FSH document.");
   auto header = file.read!Header();
   // TODO: Read bitmap entries
 
