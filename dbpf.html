@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>dbpf - Playdate SDK D API</title>
+    <link rel="stylesheet" href="styles/docs.css" />
+    <link rel="stylesheet" href="styles/dub.css" />
+  </head>
+  <body>
+    
+    <main>
+      <a id="downloadButton" href="https://code.dlang.org/packages/dbpf">
+        <div class="bs-hbtn right black">
+          <div class="content">get <strong>dbpf</strong><br><large>v0.1.0</large></div>
+        </div><div class="bs-hbtn left red">
+          <div class="dub-logo"></div>
+        </div>
+      </a>
+      <aside class="flex row">
+        <nav>
+          <header class="flex row">
+            <h1>
+              <span>DBPF</span>
+              <span class="faint">D Library</span>
+            </h1>
+          </header>
+          <ul style="list-style: none; padding: 0;">
+            <li>
+              <a href="https://chances.github.io/dbpf-d">API Reference</a>
+            </li>
+            <li>
+              <a href="https://code.dlang.org/packages/dbpf">Download</a>
+            </li>
+            <li>
+              <a href="https://github.com/chances/dbpf-d#readme">Open Source on GitHub</a>
+            </li>
+          </ul>
+          <h2>API Reference</h2>
+          <form id="symbolSearchForm" action="#" method="GET">
+            <input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" tabindex="1000">
+          </form>
+          <!-- TODO: Collect and write list of symbols -->
+          <!--ul id="symbols">{{#each SYMBOLS}}
+            <li>{{ this }}</li>
+          {{/each}}</ul-->
+        </nav>
+      </aside>
+      <article class="module">
+        
+        <h1>Module dbpf</h1>
+        <section class="source">
+          <h4>Source</h4>
+          <p><a href="https://github.com/chances/dbpf-d/blob/main/src/package.d">src/package.d</a></p>
+        </section>
+        <p>Read and write Database Packed File (DBPF) archives.
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <ul><li><a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF">DBPF</a> (SC4D Encyclopedia)</li>
+<li><a href="https://www.wiki.sc4devotion.com/index.php?title=List_of_File_Formats">List of File Formats</a> (SC4D Encyclopedia)</li>
+</ul>
+
+
+  </p>
+</section>
+<section class="authors">
+  <h4>Authors</h4>
+  <p>
+    Chance Snow
+
+  </p>
+</section>
+<section class="license">
+  <h4>License</h4>
+  <p>
+    MIT License
+  </p>
+</section>
+<section class="members">
+    <h2>Members</h2>
+    <ul><li class="member">
+  <h3><a id="isValidDbpfVersion" href="#isValidDbpfVersion"><code class="code">isValidDbpfVersion</code></a></h3><dt class="decl"><code><span class="anchor" id="isValidDbpfVersion"></span>enum auto <strong>isValidDbpfVersion</strong>(float V);
+</code></dt>
+<dd class="decl"><p>Determines whether <code class="code">V</code> is a valid DBPF version number.
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <code class="code">Version</code>
+
+  </p>
+</section>
+<p><h4 class="section">Remarks</h4><ul><li><code class="code">1.0</code> seen in SimCity 4, The Sims 2</li>
+<li><code class="code">1.1</code> seen in The Sims 2</li>
+<li><code class="code">2.0</code> seen in Spore, The Sims 3</li>
+<li><code class="code">3.0</code> seen in SimCity (2013)</li>
+</ul></p></dd>
+
+</li><li class="member">
+  <h3><a id="Header" href="#Header"><code class="code">Header</code></a></h3><dt class="decl"><code><span class="anchor" id="Header"></span>struct <strong>Header</strong>(float V = 1) if (isValidDbpfVersion!V);
+</code></dt>
+<dd class="decl"><div class="ddoc_params">
+  <h4>Parameters</h4>
+  <table cellspacing="0" cellpadding="5" border="0" class="params">
+    <tbody>
+      
+    </tbody>
+  </table>
+</div>
+<p><h4 class="section">V</h4>DBPF archive version. See <code class="code">Version</code>.
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF#Header">DBPF <strong>Header</strong></a> (SC4D Encyclopedia)
+  </p>
+</section>
+<ul class="struct members">
+  <li class="member">
+  <h3><a id="Header.identifier" href="#Header.identifier"><code class="code">identifier</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.identifier"></span>static const <strong>identifier</strong>;
+</code></dt>
+<dd class="decl"><p>Always <code class="code">DBPF</code>.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.magic" href="#Header.magic"><code class="code">magic</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.magic"></span>ubyte[4] <strong>magic</strong>;
+</code></dt>
+<dd class="decl"><p>Always <code class="code">DBPF</code>.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.version_" href="#Header.version_"><code class="code">version_</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.version_"></span>Version <strong>version_</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="Header.unknown1" href="#Header.unknown1"><code class="code">unknown1</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.unknown1"></span>uint <strong>unknown1</strong>;
+</code></dt>
+<dd class="decl"><p>Unused, possibly reserved.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.unknown2" href="#Header.unknown2"><code class="code">unknown2</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.unknown2"></span>uint <strong>unknown2</strong>;
+</code></dt>
+<dd class="decl"><p>Unused, possibly reserved.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.unknown3" href="#Header.unknown3"><code class="code">unknown3</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.unknown3"></span>const uint <strong>unknown3</strong>;
+</code></dt>
+<dd class="decl"><p>Should always be zero in DBPF v<code class="code">2.0</code>.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.dateCreated" href="#Header.dateCreated"><code class="code">dateCreated</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.dateCreated"></span>uint <strong>dateCreated</strong>;
+</code></dt>
+<dd class="decl"><p>Date created. Unix timestamp.
+</p><p><h4 class="section">Remarks</h4>Unused in DBPF <code class="code">1.1</code>.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.dateModified" href="#Header.dateModified"><code class="code">dateModified</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.dateModified"></span>uint <strong>dateModified</strong>;
+</code></dt>
+<dd class="decl"><p>Date modified. Unix timestamp.
+</p><p><h4 class="section">Remarks</h4>Unused in DBPF v<code class="code">1.1</code>.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.indexMajorVersion" href="#Header.indexMajorVersion"><code class="code">indexMajorVersion</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.indexMajorVersion"></span>uint <strong>indexMajorVersion</strong>;
+</code></dt>
+<dd class="decl"><p>Major version of the Index table.
+</p><p><h4 class="section">Remarks</h4>Always <code class="code">7</code> in The Sims 2 and SimCity 4. If this is a DBPF v<code class="code">2.0</code> archive, then it is <code class="code">0</code> for Spore.
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <code class="code">indexMinorVersion</code>
+  </p>
+</section>
+</dd>
+
+</li><li class="member">
+  <h3><a id="Header.indexEntryCount" href="#Header.indexEntryCount"><code class="code">indexEntryCount</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.indexEntryCount"></span>uint <strong>indexEntryCount</strong>;
+</code></dt>
+<dd class="decl"><p>Number of entries in the Index Table.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.indexOffset" href="#Header.indexOffset"><code class="code">indexOffset</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.indexOffset"></span>uint <strong>indexOffset</strong>;
+</code></dt>
+<dd class="decl"><p>Offset to Index table, in bytes. Location of first index entry.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.indexSize" href="#Header.indexSize"><code class="code">indexSize</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.indexSize"></span>uint <strong>indexSize</strong>;
+</code></dt>
+<dd class="decl"><p>Size of the Index table, in bytes.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.holeEntryCount" href="#Header.holeEntryCount"><code class="code">holeEntryCount</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.holeEntryCount"></span>uint <strong>holeEntryCount</strong>;
+</code></dt>
+<dd class="decl"><p>Number of Hole entries in the Hole Record.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.holeOffset" href="#Header.holeOffset"><code class="code">holeOffset</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.holeOffset"></span>uint <strong>holeOffset</strong>;
+</code></dt>
+<dd class="decl"><p>Location of the hole Record.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.holeSize" href="#Header.holeSize"><code class="code">holeSize</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.holeSize"></span>uint <strong>holeSize</strong>;
+</code></dt>
+<dd class="decl"><p>Size of the hole Record, in bytes.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.indexMinorVersion" href="#Header.indexMinorVersion"><code class="code">indexMinorVersion</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.indexMinorVersion"></span>uint <strong>indexMinorVersion</strong>;
+</code></dt>
+<dd class="decl"><p>Minor version of the Index table.
+</p><p><h4 class="section">Remarks</h4><p>In The Sims 2 for DBPF v<code class="code">1.1+</code>.</p>
+<p>In DBPF &gt;= v<code class="code">2.0</code>, this is <code class="code">3</code>, otherwise:</p>
+<ul><li><code class="code">1</code> = v<code class="code">7.0</code></li>
+<li><code class="code">2</code> = v<code class="code">7.1</code></li>
+</ul>
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <code class="code">indexMajorVersion</code>
+  </p>
+</section>
+</dd>
+
+</li><li class="member">
+  <h3><a id="Header.indexOffset" href="#Header.indexOffset"><code class="code">indexOffset</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.indexOffset.2"></span>uint <strong>indexOffset</strong>;
+</code></dt>
+<dd class="decl"><p>Offset to Index table, in bytes. Location of first index entry.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.unknown4" href="#Header.unknown4"><code class="code">unknown4</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.unknown4"></span>uint <strong>unknown4</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="Header.reserved" href="#Header.reserved"><code class="code">reserved</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.reserved"></span>ubyte[24] <strong>reserved</strong>;
+</code></dt>
+<dd class="decl"><p>Reserved for future use.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.indexVersion" href="#Header.indexVersion"><code class="code">indexVersion</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.indexVersion"></span>const @property Version <strong>indexVersion</strong>();
+</code></dt>
+<dd class="decl"><p>Computed, human-readable Index table version.</p></dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="Version" href="#Version"><code class="code">Version</code></a></h3><dt class="decl"><code><span class="anchor" id="Version"></span>struct <strong>Version</strong>;
+</code></dt>
+<dd class="decl"><p><h4 class="section">Remarks</h4>For DBPF version specifiers:
+<ul><li><code class="code">1.0</code> seen in SimCity 4, The Sims 2</li>
+<li><code class="code">1.1</code> seen in The Sims 2</li>
+<li><code class="code">2.0</code> seen in Spore, The Sims 3</li>
+<li><code class="code">3.0</code> seen in SimCity(2013)</li>
+</ul>
+For DBPF Index table version specifiers:
+<ul><li><code class="code">7.0</code> seen in SimCity 4, The Sims 2</li>
+<li><code class="code">7.1</code> seen in The Sims 2</li>
+</ul></p><ul class="struct members">
+  <li class="member">
+  <h3><a id="Version.simCity4" href="#Version.simCity4"><code class="code">simCity4</code></a></h3><dt class="decl"><code><span class="anchor" id="Version.simCity4"></span>static const float <strong>simCity4</strong>;
+<br>
+<span class="anchor" id="Version.sc4"></span>static const float <strong>sc4</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="Version.sims2" href="#Version.sims2"><code class="code">sims2</code></a></h3><dt class="decl"><code><span class="anchor" id="Version.sims2"></span>static const float <strong>sims2</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="Version.spore" href="#Version.spore"><code class="code">spore</code></a></h3><dt class="decl"><code><span class="anchor" id="Version.spore"></span>static const float <strong>spore</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="Version.sims3" href="#Version.sims3"><code class="code">sims3</code></a></h3><dt class="decl"><code><span class="anchor" id="Version.sims3"></span>static const float <strong>sims3</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="Version.simCity" href="#Version.simCity"><code class="code">simCity</code></a></h3><dt class="decl"><code><span class="anchor" id="Version.simCity"></span>static const float <strong>simCity</strong>;
+</code></dt>
+<dd class="decl"><p>SimCity (2013)</p></dd>
+
+</li><li class="member">
+  <h3><a id="Version.major" href="#Version.major"><code class="code">major</code></a></h3><dt class="decl"><code><span class="anchor" id="Version.major"></span>uint <strong>major</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="Version.minor" href="#Version.minor"><code class="code">minor</code></a></h3><dt class="decl"><code><span class="anchor" id="Version.minor"></span>uint <strong>minor</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="isValidIndexVersion" href="#isValidIndexVersion"><code class="code">isValidIndexVersion</code></a></h3><dt class="decl"><code><span class="anchor" id="isValidIndexVersion"></span>enum auto <strong>isValidIndexVersion</strong>(float V);
+</code></dt>
+<dd class="decl"><p>Determines whether <code class="code">V</code> is a valid DBPF Index table version number.
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <code class="code">Version</code>
+  </p>
+</section>
+</dd>
+
+</li><li class="member">
+  <h3><a id="IndexTable" href="#IndexTable"><code class="code">IndexTable</code></a></h3><dt class="decl"><code><span class="anchor" id="IndexTable"></span>struct <strong>IndexTable</strong>(float V = 7.0) if (isValidIndexVersion!V);
+</code></dt>
+<dd class="decl"><p>Index Tables list the contents of a DBPF package.
+</p><p><h4 class="section">Remarks</h4>The index table is very similar to the directory file
+(<a href="https://www.wiki.sc4devotion.com/index.php?title=DIR">DIR</a>) within a DPBF package. The difference
+being that the Index Table lists every file in the package, whereas the directory file only lists the compressed
+files within the package. <a href="https://www.wiki.sc4devotion.com/index.php?title=Reader">Reader</a> presents a
+directory file that is a mashup of these two entities, listing every file in the package, as well as indicating
+whether or not that particular file is compressed.
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF#Index_Table">DBPF Index Table</a> (SC4D Encyclopedia)
+  </p>
+</section>
+<ul class="struct members">
+  <li class="member">
+  <h3><a id="IndexTable.typeId" href="#IndexTable.typeId"><code class="code">typeId</code></a></h3><dt class="decl"><code><span class="anchor" id="IndexTable.typeId"></span>uint <strong>typeId</strong>;
+</code></dt>
+<dd class="decl"><p>Type ID.</p></dd>
+
+</li><li class="member">
+  <h3><a id="IndexTable.groupId" href="#IndexTable.groupId"><code class="code">groupId</code></a></h3><dt class="decl"><code><span class="anchor" id="IndexTable.groupId"></span>uint <strong>groupId</strong>;
+</code></dt>
+<dd class="decl"><p>Group ID.</p></dd>
+
+</li><li class="member">
+  <h3><a id="IndexTable.instanceId" href="#IndexTable.instanceId"><code class="code">instanceId</code></a></h3><dt class="decl"><code><span class="anchor" id="IndexTable.instanceId"></span>uint <strong>instanceId</strong>;
+</code></dt>
+<dd class="decl"><p>Instance ID.</p></dd>
+
+</li><li class="member">
+  <h3><a id="IndexTable.resourceId" href="#IndexTable.resourceId"><code class="code">resourceId</code></a></h3><dt class="decl"><code><span class="anchor" id="IndexTable.resourceId"></span>uint <strong>resourceId</strong>;
+</code></dt>
+<dd class="decl"><p>Resource ID.</p></dd>
+
+</li><li class="member">
+  <h3><a id="IndexTable.offset" href="#IndexTable.offset"><code class="code">offset</code></a></h3><dt class="decl"><code><span class="anchor" id="IndexTable.offset"></span>uint <strong>offset</strong>;
+</code></dt>
+<dd class="decl"><p>Location <strong>offset</strong> of a file in the archive, in bytes.</p></dd>
+
+</li><li class="member">
+  <h3><a id="IndexTable.size" href="#IndexTable.size"><code class="code">size</code></a></h3><dt class="decl"><code><span class="anchor" id="IndexTable.size"></span>uint <strong>size</strong>;
+</code></dt>
+<dd class="decl"><p>Size of a file, in bytes.</p></dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="IndexTableV7" href="#IndexTableV7"><code class="code">IndexTableV7</code></a></h3><dt class="decl"><code><span class="anchor" id="IndexTableV7"></span>alias <strong>IndexTableV7</strong> = IndexTable!7.0F.IndexTable;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="IndexTableV7_1" href="#IndexTableV7_1"><code class="code">IndexTableV7_1</code></a></h3><dt class="decl"><code><span class="anchor" id="IndexTableV7_1"></span>alias <strong>IndexTableV7_1</strong> = IndexTable!7.1F.IndexTable;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="HoleTable" href="#HoleTable"><code class="code">HoleTable</code></a></h3><dt class="decl"><code><span class="anchor" id="HoleTable"></span>struct <strong>HoleTable</strong>;
+</code></dt>
+<dd class="decl"><p>A Hole Table contains the location and size of all holes in a DBPF file.
+</p><p><h4 class="section">Remarks</h4>Holes are created when the game deletes something from a DBPF. The holes themselves are simply junk data of the
+appropriate length to fill the hole.</p><ul class="struct members">
+  <li class="member">
+  <h3><a id="HoleTable.location" href="#HoleTable.location"><code class="code">location</code></a></h3><dt class="decl"><code><span class="anchor" id="HoleTable.location"></span>uint <strong>location</strong>;
+</code></dt>
+<dd class="decl"><p>Location offset, in bytes.</p></dd>
+
+</li><li class="member">
+  <h3><a id="HoleTable.size" href="#HoleTable.size"><code class="code">size</code></a></h3><dt class="decl"><code><span class="anchor" id="HoleTable.size"></span>uint <strong>size</strong>;
+</code></dt>
+<dd class="decl"><p>Size, in bytes.</p></dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="FileHeader" href="#FileHeader"><code class="code">FileHeader</code></a></h3><dt class="decl"><code><span class="anchor" id="FileHeader"></span>struct <strong>FileHeader</strong>;
+</code></dt>
+<dd class="decl"><p>Occurs before <code class="code">File.contents</code> only if the <code class="code">File</code> is compressed.</p><ul class="struct members">
+  <li class="member">
+  <h3><a id="FileHeader.compressedSize" href="#FileHeader.compressedSize"><code class="code">compressedSize</code></a></h3><dt class="decl"><code><span class="anchor" id="FileHeader.compressedSize"></span>uint <strong>compressedSize</strong>;
+</code></dt>
+<dd class="decl"><p>Compressed size of the file, in bytes.</p></dd>
+
+</li><li class="member">
+  <h3><a id="FileHeader.compressionId" href="#FileHeader.compressionId"><code class="code">compressionId</code></a></h3><dt class="decl"><code><span class="anchor" id="FileHeader.compressionId"></span>const ushort <strong>compressionId</strong>;
+</code></dt>
+<dd class="decl"><p>Compression ID, i.e. (<code class="code">0x10FB</code>). Always
+<a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF_Compression">QFS Compression</a>.
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF_Compression">DBPF Compression</a> (SC4D Encyclopedia)
+  </p>
+</section>
+</dd>
+
+</li><li class="member">
+  <h3><a id="FileHeader.uncompressedSize" href="#FileHeader.uncompressedSize"><code class="code">uncompressedSize</code></a></h3><dt class="decl"><code><span class="anchor" id="FileHeader.uncompressedSize"></span>int24 <strong>uncompressedSize</strong>;
+</code></dt>
+<dd class="decl"><p>Uncompressed size of the file, in bytes.</p></dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="File" href="#File"><code class="code">File</code></a></h3><dt class="decl"><code><span class="anchor" id="File"></span>struct <strong>File</strong>(bool Compressed = Flag!"compressed" = false);
+</code></dt>
+<dd class="decl"><p>Files fill the bulk of a DBPF archive.
+</p><p>A file header exists only if this file is compressed.
+</p><p><h4 class="section">Remarks</h4>Each file is either uncompressed or compressed. To check if a file is compressed you first need to read the DIR
+file, if it exists. If no <a href="https://www.wiki.sc4devotion.com/index.php?title=DIR">DIR</a> entry exists,
+then no files within the package are compressed.</p><ul class="struct members">
+  <li class="member">
+  <h3><a id="File.header" href="#File.header"><code class="code">header</code></a></h3><dt class="decl"><code><span class="anchor" id="File.header"></span>FileHeader <strong>header</strong>;
+</code></dt>
+<dd class="decl"><p>Exists only if this file is compressed.</p></dd>
+
+</li><li class="member">
+  <h3><a id="File.contents" href="#File.contents"><code class="code">contents</code></a></h3><dt class="decl"><code><span class="anchor" id="File.contents"></span>ubyte[] <strong>contents</strong>;
+</code></dt>
+<dd class="decl"><p>Contents of this file.
+</p><p>See <a href="https://www.wiki.sc4devotion.com/index.php?title=List_of_File_Formats">List of File Formats</a> for
+a list of the file types that may exist within a DBPF archive.</p></dd>
+
+</li><li class="member">
+  <h3><a id="File.size" href="#File.size"><code class="code">size</code></a></h3><dt class="decl"><code><span class="anchor" id="File.size"></span>const @property uint <strong>size</strong>();
+</code></dt>
+<dd class="decl"><p>Uncompressed <strong>size</strong> of this file, in bytes.</p></dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="isValidVersion" href="#isValidVersion"><code class="code">isValidVersion</code></a></h3><dt class="decl"><code><span class="anchor" id="isValidVersion"></span>enum auto <strong>isValidVersion</strong>(float DBPF, float V);
+</code></dt>
+<dd class="decl"><p>Determines whether <code class="code">DBPF and </code>V` are valid DBPF and Index table versions.
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <ul><li><code class="code">isValidDbpfVersion</code></li>
+<li><code class="code">isValidIndexVersion</code></li>
+<li><code class="code">Version</code></li>
+</ul>
+  </p>
+</section>
+</dd>
+
+</li><li class="member">
+  <h3><a id="Archive" href="#Archive"><code class="code">Archive</code></a></h3><dt class="decl"><code><span class="anchor" id="Archive"></span>struct <strong>Archive</strong>(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V));
+</code></dt>
+<dd class="decl">
+<ul class="struct members">
+  <li class="member">
+  <h3><a id="Archive.path" href="#Archive.path"><code class="code">path</code></a></h3><dt class="decl"><code><span class="anchor" id="Archive.path"></span>const string <strong>path</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="Archive.metadata" href="#Archive.metadata"><code class="code">metadata</code></a></h3><dt class="decl"><code><span class="anchor" id="Archive.metadata"></span>Head <strong>metadata</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="Archive.entries" href="#Archive.entries"><code class="code">entries</code></a></h3><dt class="decl"><code><span class="anchor" id="Archive.entries"></span>Table[] <strong>entries</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="Archive.this" href="#Archive.this"><code class="code">this</code></a></h3><dt class="decl"><code><span class="anchor" id="Archive.this"></span>this(string <code><i>path</i></code>);
+</code></dt>
+<dd class="decl"><p>Open a DBPF archive from the given file <code class="code"><code><i>path</i></code></code>.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Archive.close" href="#Archive.close"><code class="code">close</code></a></h3><dt class="decl"><code><span class="anchor" id="Archive.close"></span>void <strong>close</strong>();
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li>
+</ul></dd>
+
+</li></ul>
+  </section>
+      </article>
+    </main>
+    <footer>
+  <a href="https://github.com/chances/dbpf-d#readme">GitHub</a>
+  <span class="faint" style="float: right;">Generated using <a href="https://code.dlang.org/packages/ddox">DDOX</a></span>
+</footer>
+  </body>
+</html>

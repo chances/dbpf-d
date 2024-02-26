@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>dbpf.types - Playdate SDK D API</title>
+    <link rel="stylesheet" href="styles/docs.css" />
+    <link rel="stylesheet" href="styles/dub.css" />
+  </head>
+  <body>
+    
+    <main>
+      <a id="downloadButton" href="https://code.dlang.org/packages/dbpf">
+        <div class="bs-hbtn right black">
+          <div class="content">get <strong>dbpf</strong><br><large>v0.1.0</large></div>
+        </div><div class="bs-hbtn left red">
+          <div class="dub-logo"></div>
+        </div>
+      </a>
+      <aside class="flex row">
+        <nav>
+          <header class="flex row">
+            <h1>
+              <span>DBPF</span>
+              <span class="faint">D Library</span>
+            </h1>
+          </header>
+          <ul style="list-style: none; padding: 0;">
+            <li>
+              <a href="https://chances.github.io/dbpf-d">API Reference</a>
+            </li>
+            <li>
+              <a href="https://code.dlang.org/packages/dbpf">Download</a>
+            </li>
+            <li>
+              <a href="https://github.com/chances/dbpf-d#readme">Open Source on GitHub</a>
+            </li>
+          </ul>
+          <h2>API Reference</h2>
+          <form id="symbolSearchForm" action="#" method="GET">
+            <input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" tabindex="1000">
+          </form>
+          <!-- TODO: Collect and write list of symbols -->
+          <!--ul id="symbols">{{#each SYMBOLS}}
+            <li>{{ this }}</li>
+          {{/each}}</ul-->
+        </nav>
+      </aside>
+      <article class="module">
+        
+        <h1>Module dbpf.types</h1>
+        <section class="source">
+          <h4>Source</h4>
+          <p><a href="https://github.com/chances/dbpf-d/blob/main/src/types.d">src/types.d</a></p>
+        </section>
+        <section class="authors">
+  <h4>Authors</h4>
+  <p>
+    Chance Snow
+
+  </p>
+</section>
+<section class="license">
+  <h4>License</h4>
+  <p>
+    MIT License
+  </p>
+</section>
+<section class="members">
+    <h2>Members</h2>
+    <ul><li class="member">
+  <h3><a id="str" href="#str"><code class="code">str</code></a></h3><dt class="decl"><code><span class="anchor" id="str"></span>struct <strong>str</strong>(int Size);
+</code></dt>
+<dd class="decl"><p>A fixed-sized string.
+</p><div class="ddoc_params">
+  <h4>Parameters</h4>
+  <table cellspacing="0" cellpadding="5" border="0" class="params">
+    <tbody>
+      
+    </tbody>
+  </table>
+</div>
+<p><h4 class="section">Size</h4>Size of string, in bytes.</p><ul class="struct members">
+  <li class="member">
+  <h3><a id="str.this" href="#str.this"><code class="code">this</code></a></h3><dt class="decl"><code><span class="anchor" id="str.this"></span>this(string <code><i>str</i></code>);
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="int24" href="#int24"><code class="code">int24</code></a></h3><dt class="decl"><code><span class="anchor" id="int24"></span>struct <strong>int24</strong>;
+</code></dt>
+<dd class="decl"><p>A 24-bit signed integer.
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <a href="https://forum.dlang.org/thread/sarwanlrindyawtztlgh@forum.dlang.org"24-bit int</a> (D Forum)
+  </p>
+</section>
+<ul class="struct members">
+  <li class="member">
+  <h3><a id="int24.this" href="#int24.this"><code class="code">this</code></a></h3><dt class="decl"><code><span class="anchor" id="int24.this"></span>this(int <code><i>x</i></code>);
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="int24.value" href="#int24.value"><code class="code">value</code></a></h3><dt class="decl"><code><span class="anchor" id="int24.value"></span>inout @property int <strong>value</strong>();
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="int24.value" href="#int24.value"><code class="code">value</code></a></h3><dt class="decl"><code><span class="anchor" id="int24.value.2"></span>@property int <strong>value</strong>(int <code><i>x</i></code>);
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="int24.opUnary" href="#int24.opUnary"><code class="code">opUnary</code></a></h3><dt class="decl"><code><span class="anchor" id="int24.opUnary"></span>auto <strong>opUnary</strong>(string op)();
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="int24.opOpAssign" href="#int24.opOpAssign"><code class="code">opOpAssign</code></a></h3><dt class="decl"><code><span class="anchor" id="int24.opOpAssign"></span>auto <strong>opOpAssign</strong>(string op)(int <code><i>x</i></code>);
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li>
+</ul></dd>
+
+</li></ul>
+  </section>
+      </article>
+    </main>
+    <footer>
+  <a href="https://github.com/chances/dbpf-d#readme">GitHub</a>
+  <span class="faint" style="float: right;">Generated using <a href="https://code.dlang.org/packages/ddox">DDOX</a></span>
+</footer>
+  </body>
+</html>

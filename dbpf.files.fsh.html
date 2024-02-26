@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>dbpf.files.fsh - Playdate SDK D API</title>
+    <link rel="stylesheet" href="styles/docs.css" />
+    <link rel="stylesheet" href="styles/dub.css" />
+  </head>
+  <body>
+    
+    <main>
+      <a id="downloadButton" href="https://code.dlang.org/packages/dbpf">
+        <div class="bs-hbtn right black">
+          <div class="content">get <strong>dbpf</strong><br><large>v0.1.0</large></div>
+        </div><div class="bs-hbtn left red">
+          <div class="dub-logo"></div>
+        </div>
+      </a>
+      <aside class="flex row">
+        <nav>
+          <header class="flex row">
+            <h1>
+              <span>DBPF</span>
+              <span class="faint">D Library</span>
+            </h1>
+          </header>
+          <ul style="list-style: none; padding: 0;">
+            <li>
+              <a href="https://chances.github.io/dbpf-d">API Reference</a>
+            </li>
+            <li>
+              <a href="https://code.dlang.org/packages/dbpf">Download</a>
+            </li>
+            <li>
+              <a href="https://github.com/chances/dbpf-d#readme">Open Source on GitHub</a>
+            </li>
+          </ul>
+          <h2>API Reference</h2>
+          <form id="symbolSearchForm" action="#" method="GET">
+            <input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" tabindex="1000">
+          </form>
+          <!-- TODO: Collect and write list of symbols -->
+          <!--ul id="symbols">{{#each SYMBOLS}}
+            <li>{{ this }}</li>
+          {{/each}}</ul-->
+        </nav>
+      </aside>
+      <article class="module">
+        
+        <h1>Module dbpf.files.fsh</h1>
+        <section class="source">
+          <h4>Source</h4>
+          <p><a href="https://github.com/chances/dbpf-d/blob/main/src/files/fsh.d">src/files/fsh.d</a></p>
+        </section>
+        <p>Franks PC Shapes (Textures)
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <ul><li><a href="https://www.wiki.sc4devotion.com/index.php?title=FSH">Franks PC Shapes</a> (SC4D Encyclopedia)</li>
+<li><a href="https://www.wiki.sc4devotion.com/index.php?title=FSH_Format">FSH Format</a> (SC4D Encyclopedia)</li>
+</ul>
+
+
+  </p>
+</section>
+<section class="authors">
+  <h4>Authors</h4>
+  <p>
+    Chance Snow
+
+  </p>
+</section>
+<section class="license">
+  <h4>License</h4>
+  <p>
+    MIT License
+  </p>
+</section>
+<section class="members">
+    <h2>Members</h2>
+    <ul><li class="member">
+  <h3><a id="DirectoryId" href="#DirectoryId"><code class="code">DirectoryId</code></a></h3><dt class="decl"><code><span class="anchor" id="DirectoryId"></span>enum <strong>DirectoryId</strong>: <a href="https://dlang.org/spec/type.html#basic-data-types">immutable(ubyte)[]</a>;
+</code></dt>
+<dd class="decl">
+<ul class="enum members">
+  <li class="member">
+  <h3><a id="DirectoryId.building" href="#DirectoryId.building"><code class="code">building</code></a></h3><dt class="decl"><code><span class="anchor" id="DirectoryId.building"></span><strong>building</strong></code></dt>
+<dd class="decl"><p>Building textures</p></dd>
+
+</li><li class="member">
+  <h3><a id="DirectoryId.generic" href="#DirectoryId.generic"><code class="code">generic</code></a></h3><dt class="decl"><code><span class="anchor" id="DirectoryId.generic"></span><strong>generic</strong></code></dt>
+<dd class="decl"><p>Network textures, Sim textures, Sim heads, Sim animations, Trees, props, Base textures, Misc. colors</p></dd>
+
+</li><li class="member">
+  <h3><a id="DirectoryId._3dAnimation" href="#DirectoryId._3dAnimation"><code class="code">_3dAnimation</code></a></h3><dt class="decl"><code><span class="anchor" id="DirectoryId._3dAnimation"></span><strong>_3dAnimation</strong></code></dt>
+<dd class="decl"><p>3D Animation textures (e.g. the green rotating diamond in <code class="code">loteditor.dat</code>)</p></dd>
+
+</li><li class="member">
+  <h3><a id="DirectoryId.dispatch" href="#DirectoryId.dispatch"><code class="code">dispatch</code></a></h3><dt class="decl"><code><span class="anchor" id="DirectoryId.dispatch"></span><strong>dispatch</strong></code></dt>
+<dd class="decl"><p>Dispatch marker textures</p></dd>
+
+</li><li class="member">
+  <h3><a id="DirectoryId.simThumbOrNetworkModel" href="#DirectoryId.simThumbOrNetworkModel"><code class="code">simThumbOrNetworkModel</code></a></h3><dt class="decl"><code><span class="anchor" id="DirectoryId.simThumbOrNetworkModel"></span><strong>simThumbOrNetworkModel</strong></code></dt>
+<dd class="decl"><p>Small Sim texture, Network Transport Model textures (trains, etc.)</p></dd>
+
+</li><li class="member">
+  <h3><a id="DirectoryId.ui" href="#DirectoryId.ui"><code class="code">ui</code></a></h3><dt class="decl"><code><span class="anchor" id="DirectoryId.ui"></span><strong>ui</strong></code></dt>
+<dd class="decl"><p>UI Editor textures</p></dd>
+
+</li><li class="member">
+  <h3><a id="DirectoryId.bat" href="#DirectoryId.bat"><code class="code">bat</code></a></h3><dt class="decl"><code><span class="anchor" id="DirectoryId.bat"></span><strong>bat</strong></code></dt>
+<dd class="decl"><p>BAT generator texture maps</p></dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="Header" href="#Header"><code class="code">Header</code></a></h3><dt class="decl"><code><span class="anchor" id="Header"></span>struct <strong>Header</strong>;
+</code></dt>
+<dd class="decl">
+<ul class="struct members">
+  <li class="member">
+  <h3><a id="Header.identifier" href="#Header.identifier"><code class="code">identifier</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.identifier"></span>static const immutable(ubyte)[] <strong>identifier</strong>;
+</code></dt>
+<dd class="decl"><p>Always <code class="code">SHPI</code>.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.magic" href="#Header.magic"><code class="code">magic</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.magic"></span>ubyte[4] <strong>magic</strong>;
+</code></dt>
+<dd class="decl"><p>Always <code class="code">SHPI</code>.</p></dd>
+
+</li><li class="member">
+  <h3><a id="Header.size" href="#Header.size"><code class="code">size</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.size"></span>uint <strong>size</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="Header.entryCount" href="#Header.entryCount"><code class="code">entryCount</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.entryCount"></span>uint <strong>entryCount</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="Header.directoryId" href="#Header.directoryId"><code class="code">directoryId</code></a></h3><dt class="decl"><code><span class="anchor" id="Header.directoryId"></span>uint <strong>directoryId</strong>;
+</code></dt>
+<dd class="decl"><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <code class="code">DirectoryId</code>
+  </p>
+</section>
+</dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="EntryName" href="#EntryName"><code class="code">EntryName</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryName"></span>enum <strong>EntryName</strong>: <a href="https://dlang.org/spec/type.html#basic-data-types">immutable(ubyte)[]</a>;
+</code></dt>
+<dd class="decl">
+<ul class="enum members">
+  <li class="member">
+  <h3><a id="EntryName.palette" href="#EntryName.palette"><code class="code">palette</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryName.palette"></span><strong>palette</strong></code></dt>
+<dd class="decl"><p>Global <strong>palette</strong> for 8-bit Indexed Bitmaps.</p></dd>
+
+</li><li class="member">
+  <h3><a id="EntryName.zero" href="#EntryName.zero"><code class="code">zero</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryName.zero"></span><strong>zero</strong></code></dt>
+<dd class="decl"><p>Buildings, props, network intersections, and terrain textures.</p></dd>
+
+</li><li class="member">
+  <h3><a id="EntryName.rail" href="#EntryName.rail"><code class="code">rail</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryName.rail"></span><strong>rail</strong></code></dt>
+<dd class="decl"><p>Always used for a <strong>rail</strong> texture, whereas for street/road intersections it's always by instance.</p></dd>
+
+</li><li class="member">
+  <h3><a id="EntryName.tb2" href="#EntryName.tb2"><code class="code">tb2</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryName.tb2"></span><strong>tb2</strong></code></dt>
+<dd class="decl"><p>First sprite animation entry in a directory.</p></dd>
+
+</li><li class="member">
+  <h3><a id="EntryName.tb3" href="#EntryName.tb3"><code class="code">tb3</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryName.tb3"></span><strong>tb3</strong></code></dt>
+<dd class="decl"><p>Any sprite animation entries in a directory after TB2.</p></dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="Directory" href="#Directory"><code class="code">Directory</code></a></h3><dt class="decl"><code><span class="anchor" id="Directory"></span>struct <strong>Directory</strong>;
+</code></dt>
+<dd class="decl">
+<ul class="struct members">
+  <li class="member">
+  <h3><a id="Directory.entryName" href="#Directory.entryName"><code class="code">entryName</code></a></h3><dt class="decl"><code><span class="anchor" id="Directory.entryName"></span>str!4 <strong>entryName</strong>;
+</code></dt>
+<dd class="decl"><p><h4 class="section">Remarks</h4>When searching for a global palette for 8-bit bitmaps, the directory entry name for the global palette will
+always '!pal'. Once the '!pal' directory entry has been found, the global palette can be extracted and used for
+any bitmaps that use 8-bit indexed color. If no global palette is found, FSH decoders should look for a local
+palette directly following the indexed bitmap. If no palette is found, then no palette will be created or
+associated with the bitmap.
+</p><p>
+Most tools, like FSHTool, simply ignore missing palettes and save the bitmap with an empty palette with all
+indices set to black.
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <code class="code">EntryName</code>
+  </p>
+</section>
+</dd>
+
+</li><li class="member">
+  <h3><a id="Directory.offset" href="#Directory.offset"><code class="code">offset</code></a></h3><dt class="decl"><code><span class="anchor" id="Directory.offset"></span>uint <strong>offset</strong>;
+</code></dt>
+<dd class="decl"><p>Offset of the entry in the FSH file, in bytes.</p></dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="EntryHeader" href="#EntryHeader"><code class="code">EntryHeader</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryHeader"></span>struct <strong>EntryHeader</strong>;
+</code></dt>
+<dd class="decl"><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <a href="https://www.wiki.sc4devotion.com/index.php?title=FSH_Format#FSH_Entry_Header">FSH Entry Header</a> (SC4D Encyclopedia)
+  </p>
+</section>
+<ul class="struct members">
+  <li class="member">
+  <h3><a id="EntryHeader.recordId" href="#EntryHeader.recordId"><code class="code">recordId</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryHeader.recordId"></span>ubyte <strong>recordId</strong>;
+</code></dt>
+<dd class="decl"><p>Record ID
+</p><p>Logically <code class="code">AND</code>ed by <code class="code">0x7f</code> for bitmap code or <code class="code">0x80</code> to check if the entry is QFS compressed (unused by SC4).</p></dd>
+
+</li><li class="member">
+  <h3><a id="EntryHeader.size" href="#EntryHeader.size"><code class="code">size</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryHeader.size"></span>int24 <strong>size</strong>;
+</code></dt>
+<dd class="decl"><p>Size of an entry including this header.
+</p><p>Only used if the file contains an attachment or embedded mipmaps. It is zero otherwise.
+</p><p><h4 class="section">Remarks</h4><p>For single images this is usually: <code class="code">width x height + 0x10h</code>.</p>
+<p>For images with embedded mipmaps, this is the total <strong>size</strong> of the original image, plus all mipmaps, plus the
+header.
+</p>
+<p>In either case, it may include additional data as a binary attachment with unknown format.</p></p></dd>
+
+</li><li class="member">
+  <h3><a id="EntryHeader.width" href="#EntryHeader.width"><code class="code">width</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryHeader.width"></span>ushort <strong>width</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="EntryHeader.height" href="#EntryHeader.height"><code class="code">height</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryHeader.height"></span>ushort <strong>height</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="EntryHeader.centerX" href="#EntryHeader.centerX"><code class="code">centerX</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryHeader.centerX"></span>ushort <strong>centerX</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="EntryHeader.centerY" href="#EntryHeader.centerY"><code class="code">centerY</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryHeader.centerY"></span>ushort <strong>centerY</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="EntryHeader.positionX" href="#EntryHeader.positionX"><code class="code">positionX</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryHeader.positionX"></span>ushort <strong>positionX</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="EntryHeader.positionY" href="#EntryHeader.positionY"><code class="code">positionY</code></a></h3><dt class="decl"><code><span class="anchor" id="EntryHeader.positionY"></span>ushort <strong>positionY</strong>;
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="Entry" href="#Entry"><code class="code">Entry</code></a></h3><dt class="decl"><code><span class="anchor" id="Entry"></span>alias <strong>Entry</strong> = std.typecons.Tuple!(EntryHeader, "header", ubyte[], "data").Tuple;
+</code></dt>
+<dd class="decl"><p>A tuple of an entry's header and its data.
+<code class="code">data</code> is either palette or bitmap data.
+</p><p><h4 class="section">Remarks</h4>After an entry's <code class="code">header</code> is its bitmap, palette, or pixel color data.
+</p><section class="authors">
+  <h4>Authors</h4>
+  <p>
+    Palettes are generally arrays of 256 colors, each 1 byte. Bitmaps may store their pixel data in one of many ways,
+either raw bitmap pixel data, or they can make use of Microsoft DXTC compressed formats.
+
+  </p>
+</section>
+<section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <ul><li><code class="code">EntryHeader</code></li>
+<li><a href="https://www.wiki.sc4devotion.com/index.php?title=FSH_Format#Bitmap_or_Palette_Data">Bitmap data</a> (SC4D Encyclopedia)</li>
+<li><a href="https://www.wiki.sc4devotion.com/index.php?title=FSH_Format#FSH_Entry_Header">FSH <strong>Entry</strong> Header</a> (SC4D Encyclopedia)</li>
+</ul>
+  </p>
+</section>
+</dd>
+
+</li><li class="member">
+  <h3><a id="BitmapType" href="#BitmapType"><code class="code">BitmapType</code></a></h3><dt class="decl"><code><span class="anchor" id="BitmapType"></span>enum <strong>BitmapType</strong>: <a href="https://dlang.org/spec/type.html#basic-data-types">ushort</a>;
+</code></dt>
+<dd class="decl"><p>FSH images can store their pixel data raw, or they can make use of Microsoft DXTC compressed formats.
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <a href="https://www.wiki.sc4devotion.com/index.php?title=FSH_Format#Bitmap_or_Palette_Data">Bitmap data</a> (SC4D Encyclopedia)
+  </p>
+</section>
+<ul class="enum members">
+  <li class="member">
+  <h3><a id="BitmapType.indexed" href="#BitmapType.indexed"><code class="code">indexed</code></a></h3><dt class="decl"><code><span class="anchor" id="BitmapType.indexed"></span><strong>indexed</strong></code></dt>
+<dd class="decl"><p>8-bit <strong>indexed</strong>
+</p><p>Directly follows bitmap or uses global palette.</p></dd>
+
+</li><li class="member">
+  <h3><a id="BitmapType.a8r8g8b8" href="#BitmapType.a8r8g8b8"><code class="code">a8r8g8b8</code></a></h3><dt class="decl"><code><span class="anchor" id="BitmapType.a8r8g8b8"></span><strong>a8r8g8b8</strong></code></dt>
+<dd class="decl"><p>32-bit A8R8G8B8</p></dd>
+
+</li><li class="member">
+  <h3><a id="BitmapType.a0r8g8b8" href="#BitmapType.a0r8g8b8"><code class="code">a0r8g8b8</code></a></h3><dt class="decl"><code><span class="anchor" id="BitmapType.a0r8g8b8"></span><strong>a0r8g8b8</strong></code></dt>
+<dd class="decl"><p>24-bit A0R8G8B8</p></dd>
+
+</li><li class="member">
+  <h3><a id="BitmapType.a1r5g5b5" href="#BitmapType.a1r5g5b5"><code class="code">a1r5g5b5</code></a></h3><dt class="decl"><code><span class="anchor" id="BitmapType.a1r5g5b5"></span><strong>a1r5g5b5</strong></code></dt>
+<dd class="decl"><p>16-bit A1R5G5B5</p></dd>
+
+</li><li class="member">
+  <h3><a id="BitmapType.a0r5g6b5" href="#BitmapType.a0r5g6b5"><code class="code">a0r5g6b5</code></a></h3><dt class="decl"><code><span class="anchor" id="BitmapType.a0r5g6b5"></span><strong>a0r5g6b5</strong></code></dt>
+<dd class="decl"><p>16-bit A0R5G6B5</p></dd>
+
+</li><li class="member">
+  <h3><a id="BitmapType.a4r4g4b4" href="#BitmapType.a4r4g4b4"><code class="code">a4r4g4b4</code></a></h3><dt class="decl"><code><span class="anchor" id="BitmapType.a4r4g4b4"></span><strong>a4r4g4b4</strong></code></dt>
+<dd class="decl"><p>16-bit A4R4G4B4</p></dd>
+
+</li><li class="member">
+  <h3><a id="BitmapType.dxt3" href="#BitmapType.dxt3"><code class="code">dxt3</code></a></h3><dt class="decl"><code><span class="anchor" id="BitmapType.dxt3"></span><strong>dxt3</strong></code></dt>
+<dd class="decl"><p>DXT3 4x4 packed, 4-bit alpha
+</p><p>4x4 grid compressed, half-byte per pixel</p></dd>
+
+</li><li class="member">
+  <h3><a id="BitmapType.dxt1" href="#BitmapType.dxt1"><code class="code">dxt1</code></a></h3><dt class="decl"><code><span class="anchor" id="BitmapType.dxt1"></span><strong>dxt1</strong></code></dt>
+<dd class="decl"><p>DXT1 4x4 packed, 1-bit alpha
+</p><p>4x4 grid compressed, half-byte per pixel</p></dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="Palette" href="#Palette"><code class="code">Palette</code></a></h3><dt class="decl"><code><span class="anchor" id="Palette"></span>enum <strong>Palette</strong>: <a href="https://dlang.org/spec/type.html#basic-data-types">ushort</a>;
+</code></dt>
+<dd class="decl"><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <a href="https://www.wiki.sc4devotion.com/index.php?title=FSH_Format#Bitmap_or_Palette_Data"><strong>Palette</strong> codes</a> (SC4D Encyclopedia)
+  </p>
+</section>
+<ul class="enum members">
+  <li class="member">
+  <h3><a id="Palette.dos" href="#Palette.dos"><code class="code">dos</code></a></h3><dt class="decl"><code><span class="anchor" id="Palette.dos"></span><strong>dos</strong></code></dt>
+<dd class="decl"><p>24-bit DOS</p></dd>
+
+</li><li class="member">
+  <h3><a id="Palette._24bit" href="#Palette._24bit"><code class="code">_24bit</code></a></h3><dt class="decl"><code><span class="anchor" id="Palette._24bit"></span><strong>_24bit</strong></code></dt>
+<dd class="decl"><p>24-bit</p></dd>
+
+</li><li class="member">
+  <h3><a id="Palette.nfs5" href="#Palette.nfs5"><code class="code">nfs5</code></a></h3><dt class="decl"><code><span class="anchor" id="Palette.nfs5"></span><strong>nfs5</strong></code></dt>
+<dd class="decl"><p>16-bit NFS5</p></dd>
+
+</li><li class="member">
+  <h3><a id="Palette._32bit" href="#Palette._32bit"><code class="code">_32bit</code></a></h3><dt class="decl"><code><span class="anchor" id="Palette._32bit"></span><strong>_32bit</strong></code></dt>
+<dd class="decl"><p>32-bit</p></dd>
+
+</li><li class="member">
+  <h3><a id="Palette._16bit" href="#Palette._16bit"><code class="code">_16bit</code></a></h3><dt class="decl"><code><span class="anchor" id="Palette._16bit"></span><strong>_16bit</strong></code></dt>
+<dd class="decl"><p>16-bit</p></dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="Text" href="#Text"><code class="code">Text</code></a></h3><dt class="decl"><code><span class="anchor" id="Text"></span>enum <strong>Text</strong>: <a href="https://dlang.org/spec/type.html#basic-data-types">ushort</a>;
+</code></dt>
+<dd class="decl"><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <a href="https://www.wiki.sc4devotion.com/index.php?title=FSH_Format#Bitmap_or_Palette_Data"><strong>Text</strong> codes</a> (SC4D Encyclopedia)
+  </p>
+</section>
+<ul class="enum members">
+  <li class="member">
+  <h3><a id="Text.text" href="#Text.text"><code class="code">text</code></a></h3><dt class="decl"><code><span class="anchor" id="Text.text"></span><strong>text</strong></code></dt>
+<dd class="decl"><p>Standard Text file</p></dd>
+
+</li><li class="member">
+  <h3><a id="Text.etxt" href="#Text.etxt"><code class="code">etxt</code></a></h3><dt class="decl"><code><span class="anchor" id="Text.etxt"></span><strong>etxt</strong></code></dt>
+<dd class="decl"><p>ETXT of arbitrary length with full entry header</p></dd>
+
+</li><li class="member">
+  <h3><a id="Text.etxt16" href="#Text.etxt16"><code class="code">etxt16</code></a></h3><dt class="decl"><code><span class="anchor" id="Text.etxt16"></span><strong>etxt16</strong></code></dt>
+<dd class="decl"><p>ETXT of 16 bytes or less including the header</p></dd>
+
+</li><li class="member">
+  <h3><a id="Text.hotspot" href="#Text.hotspot"><code class="code">hotspot</code></a></h3><dt class="decl"><code><span class="anchor" id="Text.hotspot"></span><strong>hotspot</strong></code></dt>
+<dd class="decl"><p>Defined Pixel region hot-spot data for image</p></dd>
+
+</li>
+</ul></dd>
+
+</li><li class="member">
+  <h3><a id="Fsh" href="#Fsh"><code class="code">Fsh</code></a></h3><dt class="decl"><code><span class="anchor" id="Fsh"></span>alias <strong>Fsh</strong> = std.typecons.Tuple!(Header, "header", Directory[], "directories", Tuple!(EntryHeader, "header", ubyte[], "data")[], "entries").Tuple;
+</code></dt>
+<dd class="decl"><p>A FSH document.
+</p><section class="see-also">
+  <h4>See Also</h4>
+  <p>
+    <ul><li><code class="code">Header</code></li>
+<li><code class="code">Directory</code></li>
+<li><code class="code">Entry</code></li>
+<li><a href="https://www.wiki.sc4devotion.com/index.php?title=FSH">Franks PC Shapes</a> (SC4D Encyclopedia)</li>
+<li><a href="https://www.wiki.sc4devotion.com/index.php?title=FSH_Format">FSH Format</a> (SC4D Encyclopedia)</li>
+</ul>
+  </p>
+</section>
+</dd>
+
+</li><li class="member">
+  <h3><a id="read" href="#read"><code class="code">read</code></a></h3><dt class="decl"><code><span class="anchor" id="read"></span>Fsh <strong>read</strong>(ubyte[] <code><i>file</i></code>);
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li><li class="member">
+  <h3><a id="write" href="#write"><code class="code">write</code></a></h3><dt class="decl"><code><span class="anchor" id="write"></span>ubyte[] <strong>write</strong>(Fsh <code><i>document</i></code>);
+</code></dt>
+<dd class="decl">
+</dd>
+
+</li></ul>
+  </section>
+      </article>
+    </main>
+    <footer>
+  <a href="https://github.com/chances/dbpf-d#readme">GitHub</a>
+  <span class="faint" style="float: right;">Generated using <a href="https://code.dlang.org/packages/ddox">DDOX</a></span>
+</footer>
+  </body>
+</html>
