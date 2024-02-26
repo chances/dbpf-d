@@ -3,6 +3,48 @@
 /// License: MIT License
 module dbpf.types;
 
+import std.conv : castFrom, to;
+
+/// A fixed-sized string.
+/// Params:
+/// Size: Size of string, in bytes.
+struct str(int Size) {
+align(1):
+  private ubyte[Size] payload;
+  alias value this;
+
+  this(string str) {
+    value = str;
+  }
+
+  string value() inout @property {
+    import std.string : fromStringz;
+    return castFrom!(inout ubyte[4]).to!(inout char*)(payload).fromStringz.to!string;
+  }
+
+  string value(string str) @property {
+    import std.algorithm : copy;
+    import std.conv : text;
+    import std.string : toStringz;
+
+    assert(str.length <= payload.sizeof, "Value is too long.");
+    // Ensure the null-terminator is leftover
+    assert(str.toStringz[0..str.length].copy(payload[]).length == 1);
+    return str;
+  }
+}
+
+static assert(str!4.alignof == 1);
+static assert(str!4.sizeof == 4);
+
+unittest {
+  import std.algorithm : equal;
+
+  str!4 id = "foo";
+  assert(id.length == 3);
+  assert(id.value.equal("foo"));
+}
+
 /// A 24-bit signed integer.
 /// See_Also: <a href="https://forum.dlang.org/thread/sarwanlrindyawtztlgh@forum.dlang.org"24-bit int</a> (D Forum)
 struct int24 {
@@ -14,15 +56,15 @@ align(1):
     value = x;
   }
 
-  @property int value() {
+  int value() inout @property {
     int val = *cast(int*)&payload & 0xFFFFFF;
     if (val & 0x800000)
       val |= 0xFF000000;
     return val;
   }
 
-  @property int value(int x) {
-    version(BigEndian) _payload = (cast(ubyte*)&x)[1..4];
+  int value(int x) @property {
+    version(BigEndian) payload = (cast(ubyte*)&x)[1..4];
     else payload = (cast(ubyte*)&x)[0 .. 3];
     return value;
   }
