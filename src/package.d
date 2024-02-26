@@ -10,6 +10,7 @@
 /// License: MIT License
 module dbpf;
 
+static import std.stdio;
 import std.traits : isFloatingPoint;
 
 /// Determines whether `V` is a valid DBPF version number.
@@ -29,7 +30,7 @@ struct Header(float V = 1) if (isValidDbpfVersion!V) {
   import std.string : representation;
 
   /// Always `DBPF`.
-  static const identifier = "DBPF"c.representation;
+  static const identifier = "DBPF".representation;
 align(1):
   /// Always `DBPF`.
   ubyte[4] magic;
@@ -147,6 +148,7 @@ enum isValidIndexVersion(float V) = isFloatingPoint!(typeof(V)) && (V == 0 || V 
 /// whether or not that particular file is compressed.
 /// See_Also: <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF#Index_Table">DBPF Index Table</a> (SC4D Encyclopedia)
 struct IndexTable(float V = 7.0) if (isValidIndexVersion!V) {
+align(1):
   /// Type ID.
   uint typeId;
   /// Group ID.
@@ -161,6 +163,15 @@ struct IndexTable(float V = 7.0) if (isValidIndexVersion!V) {
   uint size;
 }
 
+///
+alias IndexTableV7 = IndexTable!7;
+///
+alias IndexTableV7_1 = IndexTable!(7.1);
+
+static assert(IndexTable!7.alignof == 1);
+static assert(IndexTable!7.sizeof == 20);
+static assert(IndexTable!(7.1).sizeof == 24);
+
 /// A Hole Table contains the location and size of all holes in a DBPF file.
 /// Remarks:
 /// Holes are created when the game deletes something from a DBPF. The holes themselves are simply junk data of the
@@ -174,6 +185,8 @@ struct HoleTable {
 
 /// Occurs before `File.contents` only if the `File` is compressed.
 struct FileHeader {
+  import dbpf.types : int24;
+align(1):
   /// Compressed size of the file, in bytes.
   uint compressedSize;
   /// Compression ID, i.e. (`0x10FB`). Always
@@ -181,8 +194,11 @@ struct FileHeader {
   /// See_Also: <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF_Compression">DBPF Compression</a> (SC4D Encyclopedia)
   const ushort compressionId = 0x10FB;
   /// Uncompressed size of the file, in bytes.
-  ubyte[3] uncompressedSize;
+  int24 uncompressedSize;
 }
+
+static assert(FileHeader.alignof == 1);
+static assert(FileHeader.sizeof == 9);
 
 import std.typecons : Flag;
 
@@ -193,7 +209,7 @@ import std.typecons : Flag;
 /// Each file is either uncompressed or compressed. To check if a file is compressed you first need to read the DIR
 /// file, if it exists. If no <a href="https://www.wiki.sc4devotion.com/index.php?title=DIR">DIR</a> entry exists,
 /// then no files within the package are compressed.
-struct File(bool Compressed = Flag!"compressed" = false, size_t size) {
+struct File(bool Compressed = Flag!"compressed" = false) {
   alias contents this;
   /// Exists only if this file is compressed.
   static if (Compressed) FileHeader header;
@@ -202,12 +218,13 @@ struct File(bool Compressed = Flag!"compressed" = false, size_t size) {
   ///
   /// See <a href="https://www.wiki.sc4devotion.com/index.php?title=List_of_File_Formats">List of File Formats</a> for
   /// a list of the file types that may exist within a DBPF archive.
-  ubyte[size] contents;
+  ubyte[] contents;
 
   /// Uncompressed size of this file, in bytes.
   uint size() const @property {
-    static if (Compressed) return this.header.size;
-    else return this.contents.length;
+    import std.conv : to;
+    static if (Compressed) return this.header.uncompressedSize;
+    else return this.contents.length.to!uint;
   }
 }
 
@@ -219,4 +236,40 @@ struct File(bool Compressed = Flag!"compressed" = false, size_t size) {
 /// )
 enum isValidVersion(float DBPF, float V) = isValidDbpfVersion!DBPF && isValidIndexVersion!V;
 
+///
+struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
+  alias Head = Header!DBPF;
+  alias Table = IndexTable!V;
+
+  import std.exception : enforce;
+
+  const string path;
+  private std.stdio.File file;
+  Head metadata;
+  Table[] entries;
+
+  /// Open a DBPF archive from the given file `path`.
+  this(string path) {
+    import std.algorithm : equal;
+    import std.conv : to;
+
+    this.path = path;
+    this.file = std.stdio.File(path, "rb");
+
+    assert(this.file.size >= Head.sizeof);
+    this.file.rawRead!Head((&metadata)[0..1]);
+    enforce(metadata.magic[].equal(Head.identifier), "Input is not a DBPF archive.");
+    auto filesOffset = this.file.tell;
+
+    this.file.seek(metadata.indexOffset);
+    this.entries = new Table[metadata.indexEntryCount];
+    this.file.rawRead!Table((entries.ptr)[0..entries.length]);
+
+    this.file.seek(filesOffset);
+  }
+
+  ///
+  void close() {
+    file.close();
+  }
 }
