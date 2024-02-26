@@ -11,6 +11,7 @@ import qfs;
 
 ///
 ubyte[] decompress(ubyte[] data) {
+  import core.stdc.string : strlen;
   import std.algorithm : copy;
   import std.conv : castFrom;
 
