@@ -20,7 +20,7 @@ import std.traits : isFloatingPoint;
 ///   $(LI `2.0` seen in Spore, The Sims 3)
 ///   $(LI `3.0` seen in SimCity (2013))
 /// )
-enum isValidDbpfVersion(V) = isFloatingPoint!V && (V == 1 || V == 1.1 || V == 2 || V == 3);
+enum isValidDbpfVersion(float V) = isFloatingPoint!(typeof(V)) && (V == 1 || V == 1.1 || V == 2 || V == 3);
 
 /// Params:
 /// V: DBPF archive version. See `Version`.
@@ -29,17 +29,18 @@ struct Header(float V = 1) if (isValidDbpfVersion!V) {
   import std.string : representation;
 
   /// Always `DBPF`.
-  const identifier = "DBPF"c.representation;
+  static const identifier = "DBPF"c.representation;
+align(1):
+  /// Always `DBPF`.
+  ubyte[4] magic;
   ///
   Version version_;
-  static if (V >= 2) {
-    /// Unused, possibly reserved.
-    uint unknown1;
-    /// Unused, possibly reserved.
-    uint unknown2;
-    /// Should always be zero in DBPF v`2.0`.
-    const uint unknown3 = 0;
-  }
+  /// Unused, possibly reserved.
+  uint unknown1;
+  /// Unused, possibly reserved.
+  uint unknown2;
+  /// Should always be zero in DBPF v`2.0`.
+  const uint unknown3 = 0;
   /// Date created. Unix timestamp.
   /// Remarks: Unused in DBPF `1.1`.
   uint dateCreated;
@@ -49,51 +50,53 @@ struct Header(float V = 1) if (isValidDbpfVersion!V) {
   /// Major version of the Index table.
   /// Remarks: Always `7` in The Sims 2 and SimCity 4. If this is a DBPF v`2.0` archive, then it is `0` for Spore.
   /// See_Also: `indexMinorVersion`
-  static if (V < 2) const uint indexMajorVersion = 7;
-  /// ditto
-  else const uint indexMajorVersion = 0;
+  uint indexMajorVersion = 0;
   /// Number of entries in the Index Table.
   uint indexEntryCount;
-  /// Offset to Index table, in bytes. Location of first index entry.
-  static if (V < 2) uint indexOffset;
-  /// Size of the Index table, in bytes.
-  uint indexSize;
   static if (V < 2) {
-    /// Number of Hole entries in the Hole Record.
-    uint holeEntryCount;
-    /// Location of the hole Record.
-    uint holeOffset;
-    /// Size of the hole Record, in bytes.
-    uint holeSize;
-    /// Minor version of the Index table.
-    /// Remarks:
-    /// $(P In The Sims 2 for DBPF v`1.1+`.)
-    /// $(P In DBPF >= v`2.0`, this is `3`, otherwise:)
-    /// $(UL
-    ///   $(LI `1` = v`7.0`)
-    ///   $(LI `2` = v`7.1`)
-    /// )
-    /// See_Also: `indexMajorVersion`
-    uint indexMinorVersion;
-  }
-  static if (V >= 2) {
     /// Offset to Index table, in bytes. Location of first index entry.
     uint indexOffset;
-    ///
-    uint unknown4;
-  }
+  } else uint padding;
+  /// Size of the Index table, in bytes.
+  uint indexSize;
+  /// Number of Hole entries in the Hole Record.
+  uint holeEntryCount;
+  /// Location of the hole Record.
+  uint holeOffset;
+  /// Size of the hole Record, in bytes.
+  uint holeSize;
+  /// Minor version of the Index table.
+  /// Remarks:
+  /// $(P In The Sims 2 for DBPF v`1.1+`.)
+  /// $(P In DBPF >= v`2.0`, this is `3`, otherwise:)
+  /// $(UL
+  ///   $(LI `1` = v`7.0`)
+  ///   $(LI `2` = v`7.1`)
+  /// )
+  /// See_Also: `indexMajorVersion`
+  uint indexMinorVersion;
+  static if (V >= 2) uint indexOffset;
+  else uint padding;
+  ///
+  uint unknown4;
   /// Reserved for future use.
-  char[24] reserved;
+  ubyte[24] reserved;
 
   /// Computed, human-readable Index table version.
   Version indexVersion() const @property {
-    static if (V < 2) return Version(this.indexMajorVersion);
+    static if (V >= 2) return Version(this.indexMajorVersion);
     else {
       uint minor = this.indexMinorVersion == 0 ? 0 : this.indexMinorVersion - 1;
       return Version(this.indexMajorVersion, minor);
     }
   }
 }
+
+static assert(Header!(Version.sc4).alignof == 1);
+static assert(Header!(Version.sc4).sizeof == 96);
+static assert(Header!(Version.sims2).sizeof == 96);
+static assert(Header!(Version.spore).sizeof == 96);
+static assert(Header!(Version.simCity).sizeof == 96);
 
 /// Remarks: For DBPF version specifiers:
 /// $(UL
@@ -110,6 +113,8 @@ struct Header(float V = 1) if (isValidDbpfVersion!V) {
 struct Version {
   ///
   static const float simCity4 = 1;
+  /// ditto
+  static const float sc4 = 1;
   ///
   static const float sims2 = 1.1;
   ///
@@ -118,15 +123,19 @@ struct Version {
   static const float sims3 = 2;
   /// SimCity (2013)
   static const float simCity = 3;
+align(1):
   ///
   uint major;
   ///
   uint minor;
 }
 
+static assert(Version.alignof == 1);
+static assert(Version.sizeof == 8);
+
 /// Determines whether `V` is a valid DBPF Index table version number.
 /// See_Also: `Version`
-enum isValidIndexVersion(V) = isFloatingPoint!V && (V == 0 || V == 7.0 || V == 7.1);
+enum isValidIndexVersion(float V) = isFloatingPoint!(typeof(V)) && (V == 0 || V == 7.0 || V == 7.1);
 
 /// Index Tables list the contents of a DBPF package.
 /// Remarks:
@@ -137,7 +146,7 @@ enum isValidIndexVersion(V) = isFloatingPoint!V && (V == 0 || V == 7.0 || V == 7
 /// directory file that is a mashup of these two entities, listing every file in the package, as well as indicating
 /// whether or not that particular file is compressed.
 /// See_Also: <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF#Index_Table">DBPF Index Table</a> (SC4D Encyclopedia)
-struct IndexTable(float DBPF = 1, float V = 7.0) if (isValidDbpfVersion!DBPF && isValidIndexVersion!V) {
+struct IndexTable(float V = 7.0) if (isValidIndexVersion!V) {
   /// Type ID.
   uint typeId;
   /// Group ID.
@@ -163,6 +172,20 @@ struct HoleTable {
   uint size;
 }
 
+/// Occurs before `File.contents` only if the `File` is compressed.
+struct FileHeader {
+  /// Compressed size of the file, in bytes.
+  uint compressedSize;
+  /// Compression ID, i.e. (`0x10FB`). Always
+  /// <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF_Compression">QFS Compression</a>.
+  /// See_Also: <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF_Compression">DBPF Compression</a> (SC4D Encyclopedia)
+  const ushort compressionId = 0x10FB;
+  /// Uncompressed size of the file, in bytes.
+  ubyte[3] uncompressedSize;
+}
+
+import std.typecons : Flag;
+
 /// Files fill the bulk of a DBPF archive.
 ///
 /// A file header exists only if this file is compressed.
@@ -181,14 +204,12 @@ struct File(bool Compressed = Flag!"compressed" = false, size_t size) {
   ubyte[size] contents;
 }
 
-/// Occurs before `File.contents` only if the `File` is compressed.
-struct FileHeader {
-  /// Compressed size of the file, in bytes.
-  uint compressedSize;
-  /// Compression ID, i.e. (`0x10FB`). Always
-  /// <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF_Compression">QFS Compression</a>.
-  /// See_Also: <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF_Compression">DBPF Compression</a> (SC4D Encyclopedia)
-  const ushort compressionId = 0x10FB;
-  /// Uncompressed size of the file, in bytes.
-  ubyte[3] uncompressedSize;
+/// Determines whether `DBPF and `V` are valid DBPF and Index table versions.
+/// See_Also: $(UL
+///   $(LI `isValidDbpfVersion`)
+///   $(LI `isValidIndexVersion`)
+///   $(LI `Version`)
+/// )
+enum isValidVersion(float DBPF, float V) = isValidDbpfVersion!DBPF && isValidIndexVersion!V;
+
 }
