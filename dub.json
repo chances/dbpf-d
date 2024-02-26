@@ -14,9 +14,8 @@
       "sourceFiles": ["views/docs.ddoc"],
       "buildOptions": ["syntaxOnly"],
       "dflags": ["-Dddocs"],
-      "postBuildCommands-posix": [
-        "cp views/index.html docs",
-        "node scripts/docs.js"
+      "postBuildCommands": [
+        "rdmd scripts/docs.d"
       ]
     }
   },

@@ -10,7 +10,7 @@
   <main>
     <a id="downloadButton" href="https://code.dlang.org/packages/dbpf">
       <div class="bs-hbtn right black">
-        <div class="content">get <strong>dbpf</strong><br><large>{{ DUB_VERSION }}</large></div>
+        <div class="content">get <strong>dbpf</strong><br><large>v{{ DUB_VERSION }}</large></div>
       </div><div class="bs-hbtn left red">
         <div class="dub-logo"></div>
       </div>
@@ -18,7 +18,6 @@
     <aside class="flex row">
       <nav>
         <header class="flex row">
-          <img id="logo" src="https://chances.github.io/dbpf-d/images/playdate.png" alt="Playdate Logo">
           <h1>
             <span>DBPF</span>
             <span class="faint">D Library</span>
@@ -39,9 +38,10 @@
         <form id="symbolSearchForm" action="#" method="GET">
 					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" tabindex="1000">
 				</form>
-        <ul id="symbols">{{#each SYMBOLS}}
+        <!-- TODO: Collect and write list of symbols -->
+        <!--ul id="symbols">{{#each SYMBOLS}}
           <li>{{ this }}</li>
-        {{/each}}</ul>
+        {{/each}}</ul-->
       </nav>
     </aside>
     <article>
@@ -68,13 +68,22 @@
 }
       </pre>
       <h2>Modules</h2>
-      {{#each MODULES}}<li><a href="{{ this.file }}">{{ this.name }}</a></li>{{/each}}
+      <ul>
+        <!-- TODO: Collect and write list of symbols -->
+        <!--{{#each MODULES}}<li><a href="{{ this.file }}">{{ this.name }}</a></li>{{/each}}-->
+        <li><a href="/package.html">dbpf</a></li>
+        <li><a href="/compression.html">dbpf.compression</a></li>
+        <li><a href="/fsh.html">dbpf.files.fsh</a></li>
+        <li><a href="/types.html">dbpf.types</a></li>
+      </ul>
     </article>
   </main>
   <footer>
     <a href="https://github.com/chances/dbpf-d#readme">GitHub</a>
     <span class="faint" style="float: right;">Generated using <a href="https://dlang.org/spec/ddoc.html">Ddoc</a></span>
   </footer>
-  <script type="application/javascript">const symbols = [{{#each SYMBOLS}}{{ this }},{{/each}}]</script>
+  <!-- TODO: Collect and write list of symbols -->
+  <!--script type="application/javascript">const symbols = [{{#each SYMBOLS}}{{ this }},{{/each}}];</script-->
+  <script type="application/javascript">const symbols = [];</script>
   <script type="application/javascript" src="scripts/symbols.js"></script>
 </body>
