@@ -17,25 +17,25 @@ import std.string : representation;
 ///
 enum DirectoryId {
   /// Building textures
-  building = "G354"c.representation,
+  building = "G354".representation,
   /// Network textures, Sim textures, Sim heads, Sim animations, Trees, props, Base textures, Misc. colors
-  generic = "G264"c.representation,
+  generic = "G264".representation,
   /// 3D Animation textures (e.g. the green rotating diamond in `loteditor.dat`)
-  _3dAnimation = "G266"c.representation,
+  _3dAnimation = "G266".representation,
   /// Dispatch marker textures
-  dispatch = "G290"c.representation,
+  dispatch = "G290".representation,
   /// Small Sim texture, Network Transport Model textures (trains, etc.)
-  simThumbOrNetworkModel = "G315"c.representation,
+  simThumbOrNetworkModel = "G315".representation,
   /// UI Editor textures
-  ui = "GIMX"c.representation,
+  ui = "GIMX".representation,
   /// BAT generator texture maps
-  bat = "G344"c.representation,
+  bat = "G344".representation,
 }
 
 ///
 struct Header {
   /// Always `SHPI`.
-  static const identifier = "SHPI"c.representation;
+  static const identifier = "SHPI".representation;
 align(1):
   /// Always `SHPI`.
   ubyte[4] magic = identifier.to!(ubyte[4]);
@@ -53,15 +53,15 @@ static assert(Header.sizeof == 16);
 ///
 enum EntryName {
   /// Global palette for 8-bit Indexed Bitmaps.
-  palette = "!pal"c.representation,
+  palette = "!pal".representation,
   /// Buildings, props, network intersections, and terrain textures.
-  zero = "0000"c.representation,
+  zero = "0000".representation,
   /// Always used for a rail texture, whereas for street/road intersections it's always by instance.
-  rail = "rail"c.representation,
+  rail = "rail".representation,
   /// First sprite animation entry in a directory.
-  tb2 = "TB2"c.representation,
+  tb2 = "TB2".representation,
   /// Any sprite animation entries in a directory after TB2.
-  tb3 = "TB3"c.representation,
+  tb3 = "TB3".representation,
 }
 
 ///
