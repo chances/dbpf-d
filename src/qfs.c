@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 #include <stdlib.h>
+#include <stdio.h>
 #include <memory.h>
 // Decode file (LUA & other compressed files)
 // Input : Data.file.input : input buffer
@@ -12,9 +13,13 @@
 // New generation FSH/QFS decompressor/compressor
 // Version 1.22 - copyright (c) Denis Auroux 1998-2002
 // auroux@math.polytechnique.fr
+
 // Copied from https://github.com/wouanagaine/SC4Mapper-2013/blob/master/Modules/qfs.c
 // Accessed Sunday, February 25, 2024
-// Notes: Headers modified for standard C. Python bindings have been removed.
+// Notes:
+// Headers modified for standard C.
+// Logging is directed to `stderr`.
+// Python bindings have been removed.
 
 typedef char BOOL;
 typedef unsigned int UINT ;
@@ -102,7 +107,7 @@ unsigned char *uncompress_data( unsigned char *inbuf,int *buflen )
 
   if (outpos!=outlen)
   {
-	  //printf("Warning: bad length ? %d instead of %d\n",outpos,outlen);
+	  fprintf(stderr, "Warning: bad length ? %d instead of %d\n",outpos,outlen);
   }
   *buflen=outlen;
   return outbuf;
@@ -144,7 +149,7 @@ void compress_data(unsigned char *inbuf,int *buflen,unsigned char *outbuf)
     {
   //	TRACE("Insufficient memory.\n");
     *buflen = 0;
-    printf( "Insufficient memory.\n");
+    fprintf(stderr, "Insufficient memory.\n");
     return;
   }
   for (i=1;i<256;i++) rev_last[i]=rev_last[i-1]+256;
@@ -237,7 +242,7 @@ void compress_data(unsigned char *inbuf,int *buflen,unsigned char *outbuf)
 
   if (lastwrot!=inlen)
   {
-    printf("Something strange happened at the end of compression!\n");
+    fprintf(stderr, "Something strange happened at the end of compression!\n");
   *buflen = 0;
     return;
   }

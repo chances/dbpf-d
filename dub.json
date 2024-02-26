@@ -7,6 +7,24 @@
     "Chance Snow <git@chancesnow.me>",
     "Denis Auroux <auroux@math.polytechnique.fr>"
   ],
+  "targetPath": "bin",
   "targetType": "staticLibrary",
-  "targetPath": "bin"
+  "buildTypes": {
+    "docs": {
+      "sourceFiles": ["views/docs.ddoc"],
+      "buildOptions": ["syntaxOnly"],
+      "dflags": ["-Dddocs"],
+      "postBuildCommands": [
+        "rdmd scripts/docs.d"
+      ]
+    }
+  },
+  "configurations": [
+    {
+      "name": "library"
+    },
+    {
+      "name": "unittest"
+    }
+  ]
 }
