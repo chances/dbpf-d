@@ -57,7 +57,7 @@ align(1):
   static if (V < 2) {
     /// Offset to Index table, in bytes. Location of first index entry.
     uint indexOffset;
-  } else uint padding;
+  } else private uint padding;
   /// Size of the Index table, in bytes.
   uint indexSize;
   /// Number of Hole entries in the Hole Record.
@@ -76,8 +76,10 @@ align(1):
   /// )
   /// See_Also: `indexMajorVersion`
   uint indexMinorVersion;
-  static if (V >= 2) uint indexOffset;
-  else uint padding;
+  static if (V >= 2) {
+    /// Offset to Index table, in bytes. Location of first index entry.
+    uint indexOffset;
+  } else private uint padding;
   ///
   uint unknown4;
   /// Reserved for future use.
@@ -87,7 +89,7 @@ align(1):
   Version indexVersion() const @property {
     static if (V >= 2) return Version(this.indexMajorVersion);
     else {
-      uint minor = this.indexMinorVersion == 0 ? 0 : this.indexMinorVersion - 1;
+      const uint minor = this.indexMinorVersion == 0 ? 0 : this.indexMinorVersion - 1;
       return Version(this.indexMajorVersion, minor);
     }
   }
@@ -243,9 +245,12 @@ struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
 
   import std.exception : enforce;
 
+  ///
   const string path;
   private std.stdio.File file;
+  ///
   Head metadata;
+  ///
   Table[] entries;
 
   /// Open a DBPF archive from the given file `path`.

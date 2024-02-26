@@ -13,6 +13,7 @@ align(1):
   private ubyte[Size] payload;
   alias value this;
 
+  ///
   this(string str) {
     value = str;
   }
@@ -52,10 +53,12 @@ align(1):
   private ubyte[3] payload;
   alias value this;
 
+  ///
   this(int x) {
     value = x;
   }
 
+  ///
   int value() inout @property {
     int val = *cast(int*)&payload & 0xFFFFFF;
     if (val & 0x800000)
@@ -63,12 +66,14 @@ align(1):
     return val;
   }
 
+  ///
   int value(int x) @property {
     version(BigEndian) payload = (cast(ubyte*)&x)[1..4];
     else payload = (cast(ubyte*)&x)[0 .. 3];
     return value;
   }
 
+  ///
   auto opUnary(string op)() {
     static if (op == "++")
       value = value + 1;
@@ -84,6 +89,7 @@ align(1):
       static assert(0, "Unary operator '" ~ op ~ "' is not supported by `int24`.");
   }
 
+  ///
   auto opOpAssign(string op)(int x) {
     static const error = "Binary operator '" ~ op ~ "' is not supported by `int24`.";
     static assert(__traits(compiles, { mixin("value = value " ~ op ~ " x;"); }), error);
