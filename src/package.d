@@ -22,10 +22,14 @@ import std.traits : isFloatingPoint;
 /// )
 enum isValidDbpfVersion(V) = isFloatingPoint!V && (V == 1 || V == 1.1 || V == 2 || V == 3);
 
+/// Params:
+/// V: DBPF archive version. See `Version`.
 /// See_Also: <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF#Header">DBPF Header</a> (SC4D Encyclopedia)
 struct Header(float V = 1) if (isValidDbpfVersion!V) {
-  ///
-  static const identifier = "DBPF";
+  import std.string : representation;
+
+  /// Always `DBPF`.
+  const identifier = "DBPF"c.representation;
   ///
   Version version_;
   static if (V >= 2) {
