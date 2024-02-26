@@ -194,14 +194,21 @@ import std.typecons : Flag;
 /// file, if it exists. If no <a href="https://www.wiki.sc4devotion.com/index.php?title=DIR">DIR</a> entry exists,
 /// then no files within the package are compressed.
 struct File(bool Compressed = Flag!"compressed" = false, size_t size) {
-  alias header this;
+  alias contents this;
   /// Exists only if this file is compressed.
   static if (Compressed) FileHeader header;
+
   /// Contents of this file.
   ///
   /// See <a href="https://www.wiki.sc4devotion.com/index.php?title=List_of_File_Formats">List of File Formats</a> for
   /// a list of the file types that may exist within a DBPF archive.
   ubyte[size] contents;
+
+  /// Uncompressed size of this file, in bytes.
+  uint size() const @property {
+    static if (Compressed) return this.header.size;
+    else return this.contents.length;
+  }
 }
 
 /// Determines whether `DBPF and `V` are valid DBPF and Index table versions.
