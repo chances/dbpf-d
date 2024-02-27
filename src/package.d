@@ -374,6 +374,9 @@ struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
 
     this.file.seek(filesOffset);
   }
+  ~this() {
+    file.close();
+  }
 
   ///
   void close() {
