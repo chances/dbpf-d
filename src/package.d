@@ -149,30 +149,32 @@ enum isValidIndexVersion(float V) = isFloatingPoint!(typeof(V)) && (V == 0 || V 
 /// directory file that is a mashup of these two entities, listing every file in the package, as well as indicating
 /// whether or not that particular file is compressed.
 /// See_Also: <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF#Index_Table">DBPF Index Table</a> (SC4D Encyclopedia)
-struct IndexTable(float V = 7.0) if (isValidIndexVersion!V) {
+struct Entry {
 align(1):
-  /// Type ID.
-  uint typeId;
-  /// Group ID.
-  uint groupId;
-  /// Instance ID.
-  uint instanceId;
+  ///
+  Tgi tgi;
+  /// Location offset of a file in the archive, in bytes.
+  uint offset;
+  /// Size of a file, in bytes.
+  uint size;
+}
+/// ditto
+struct ResourceEntry {
+align(1):
+  ///
+  Tgi tgi;
   /// Resource ID.
-  static if (V >= 7.1) uint resourceId;
+  uint resourceId;
   /// Location offset of a file in the archive, in bytes.
   uint offset;
   /// Size of a file, in bytes.
   uint size;
 }
 
-///
-alias IndexTableV7 = IndexTable!7;
-///
-alias IndexTableV7_1 = IndexTable!(7.1);
-
-static assert(IndexTable!7.alignof == 1);
-static assert(IndexTable!7.sizeof == 20);
-static assert(IndexTable!(7.1).sizeof == 24);
+static assert(Entry.alignof == 1);
+static assert(Entry.sizeof == 20);
+static assert(ResourceEntry.alignof == 1);
+static assert(ResourceEntry.sizeof == 24);
 
 /// A Hole Table contains the location and size of all holes in a DBPF file.
 /// Remarks:
@@ -241,7 +243,6 @@ enum isValidVersion(float DBPF, float V) = isValidDbpfVersion!DBPF && isValidInd
 ///
 struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
   alias Head = Header!DBPF;
-  alias Table = IndexTable!V;
 
   import std.exception : enforce;
 
@@ -251,7 +252,9 @@ struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
   ///
   Head metadata;
   ///
-  Table[] entries;
+  static if (V == 7.0) Entry[] entries;
+  /// ditto
+  static if (V == 7.1) ResourceEntry[] entries;
 
   /// Open a DBPF archive from the given file `path`.
   this(string path) {
