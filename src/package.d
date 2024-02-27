@@ -140,6 +140,33 @@ static assert(Version.sizeof == 8);
 /// See_Also: `Version`
 enum isValidIndexVersion(float V) = isFloatingPoint!(typeof(V)) && (V == 0 || V == 7.0 || V == 7.1);
 
+/// Type Group Instance
+///
+/// Used to identify, reference, and link files within DBPF archives.
+/// Remarks:
+/// As TGI's are relatively unique to a particular object, they are the preferred method for referencing game objects,
+/// which might have multiple names in a variety of languages or naming conventions. Additionally, objects sometimes
+/// have very similar names, making the TGI an ideal way to differentiate between the two.
+/// See_Also: $(UL
+///   $(LI `KnownTgis`)
+///   $(LI `Entry`)
+///   $(LI <a href="https://wiki.sc4devotion.com/index.php?title=TGI">TGI</a> (SC4D Encyclopedia))
+/// )
+struct Tgi {
+align(1):
+  /// Type ID
+  /// See_Also: <a href="https://wiki.sc4devotion.com/index.php?title=Type_ID">Type ID</a> (SC4D Encyclopedia)
+  uint typeId;
+  /// Group ID
+  /// See_Also: <a href="https://wiki.sc4devotion.com/index.php?title=Group_ID">Group ID</a> (SC4D Encyclopedia)
+  uint groupId;
+  /// Instance ID
+  /// See_Also: <a href="https://wiki.sc4devotion.com/index.php?title=Instance_ID">Instance ID</a> (SC4D Encyclopedia)
+  uint instanceId;
+}
+
+static assert(Tgi.alignof == 1);
+static assert(Tgi.sizeof == 12);
 /// Index Tables list the contents of a DBPF package.
 /// Remarks:
 /// The index table is very similar to the directory file
