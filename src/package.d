@@ -259,7 +259,7 @@ struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
   /// Open a DBPF archive from the given file `path`.
   this(string path) {
     import std.algorithm : equal;
-    import std.conv : to;
+    import std.conv : parse, text, to;
 
     this.path = path;
     this.file = std.stdio.File(path, "rb");
@@ -267,6 +267,17 @@ struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
     assert(this.file.size >= Head.sizeof);
     this.file.rawRead!Head((&metadata)[0..1]);
     enforce(metadata.magic[].equal(Head.identifier), "Input is not a DBPF archive.");
+    // Ensure file version matches expectation
+    debug const version_ = metadata.version_.major.text ~ "." ~ metadata.version_.minor.text;
+    assert(
+      parse!float(version_) == DBPF,
+      "Mismatched DBPF version. Expected " ~ DBPF.text ~ ", but saw " ~ version_
+    );
+    // Ensure index version matches expectation
+    assert(
+      V == 7.1 ? metadata.indexMinorVersion == 2 : true,
+      "Mismatched index version. Expected " ~ V.text ~ ", but saw " ~ metadata.indexMinorVersion.text
+    );
     auto filesOffset = this.file.tell;
 
     this.file.seek(metadata.indexOffset);
