@@ -9,6 +9,7 @@
   ],
   "targetPath": "bin",
   "targetType": "staticLibrary",
+  "sourceFiles": ["src/qfs.c"],
   "buildTypes": {
     "docs": {
       "sourceFiles": ["views/docs.ddoc"],
