@@ -1,0 +1,30 @@
+{
+  "actions" : {
+    "build" : {
+      "postActions" : [
+        {
+          "script" : "#!\/bin\/sh\nsource ~\/dlang\/ldc-1.36.0\/activate\ndub build -b unittest",
+          "type" : "runScript"
+        }
+      ]
+    },
+    "clean" : {
+      "postActions" : [
+        {
+          "script" : "#!\/bin\/sh\nsource ~\/dlang\/ldc-1.36.0\/activate\ndub clean\nrm bin\/dbpf-test-unittest",
+          "type" : "runScript"
+        }
+      ]
+    }
+  },
+  "buildBeforeRunning" : true,
+  "extension" : {
+    "identifier" : "panic.Icarus",
+    "name" : "Icarus"
+  },
+  "extensionTemplate" : "lldbDebug",
+  "extensionValues" : {
+    "launchPath" : "bin\/dbpf-test-unittest"
+  },
+  "openLogOnRun" : "fail"
+}
