@@ -306,6 +306,8 @@ auto rulParser() {
     auto comma = tk!',';
     auto newline = any(tk!'\r', tk!'\n', literal!"\r\n");
     auto number = range!('0', '9').rep.map!(x => x.to!uint);
+    auto hexDigit = any(range!('A', 'F'), range!('a', 'f'), range!('0', '9'));
+    auto hexNumber = seq(literal!"0x", hexDigit.rep!(1, 8)).map!(x => x[1]);
     auto transitType = any(range!('A', 'Z'), range!('a', 'z')).rep!4;
 
     auto header = any(
@@ -338,11 +340,11 @@ auto rulParser() {
       tk!'3',
       seq(comma, number.skipWs).map!(x => x[1]),
       // FSH or Exemplar Instance ID
-      seq(comma, number.skipWs).map!(x => x[1]),
+      seq(comma, hexNumber.skipWs).map!(x => parse!uint(x[1], 16)),
       // Rotation, in degrees
       seq(comma, range!('0', '3').skipWs).map!(x => x[1].to!string.to!ubyte),
       // Whether to flip the texture
-      seq(comma, any(tk!'0', tk!'1').skipWs).map!(x => x[1] == '1' ? true : false)
+      seq(comma, range!('0', '1').skipWs).map!(x => x[1] == '1' ? true : false)
     ).map!((tokens) {
       Rule rule;
       rule.type = RuleType.asset;
@@ -387,7 +389,7 @@ unittest {
 }
 
 unittest {
-  auto input = "#HighwayRules#\n1,13,2,0,2\n3,0,202,0,0".stream;
+  auto input = "#HighwayRules#\n1,13,2,0,2\n3,0,0x2001800,0,0".stream;
   RuleSet rules;
   ParserError err;
   assert(rulParser.parse(input, rules, err), err.text);
@@ -395,7 +397,7 @@ unittest {
 }
 
 unittest {
-  auto input = "#RoadRules#\n1,13,2,0,2\n3,0,202,0,0".stream;
+  auto input = "#RoadRules#\n1,13,2,0,2\n3,0,0x2001800,0,0".stream;
   RuleSet rules;
   ParserError err;
   assert(rulParser.parse(input, rules, err), err.text);
@@ -403,7 +405,7 @@ unittest {
 }
 
 unittest {
-  auto input = "#RailRules#\n1,13,2,0,2\n3,0,202,0,0".stream;
+  auto input = "#RailRules#\n1,13,2,0,2\n3,0,0x2001800,0,0".stream;
   RuleSet rules;
   ParserError err;
   assert(rulParser.parse(input, rules, err), err.text);
