@@ -10,6 +10,9 @@
   "targetPath": "bin",
   "targetType": "staticLibrary",
   "sourceFiles": ["src/qfs.c"],
+  "dependencies": {
+    "pry": "~>0.7.0"
+  },
   "buildTypes": {
     "docs": {
       "sourceFiles": ["views/docs.ddoc"],

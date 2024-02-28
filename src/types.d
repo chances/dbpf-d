@@ -69,7 +69,7 @@ align(1):
   ///
   int value(int x) @property {
     version(BigEndian) payload = (cast(ubyte*)&x)[1..4];
-    else payload = (cast(ubyte*)&x)[0 .. 3];
+    else payload = (cast(ubyte*)&x)[0..3];
     return value;
   }
 

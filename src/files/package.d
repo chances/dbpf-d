@@ -15,7 +15,12 @@
 /// License: MIT License
 module dbpf.files;
 
+import pry : SimpleStream;
 import std.conv : castFrom, to;
+
+package(dbpf) alias S = SimpleStream!string;
+/// Parser error.
+alias ParserError = S.Error;
 
 package(dbpf) ubyte[] toBytes(T)(T value) {
   void* ptr = &value;
