@@ -12,7 +12,7 @@ module dbpf.tgi;
 /// have very similar names, making the TGI an ideal way to differentiate between the two.
 /// See_Also: $(UL
 ///   $(LI `KnownTgis`)
-///   $(LI `Entry`)
+///   $(LI `dbpf.Entry`)
 ///   $(LI <a href="https://wiki.sc4devotion.com/index.php?title=TGI">TGI</a> (SC4D Encyclopedia))
 /// )
 struct Tgi {
@@ -89,52 +89,52 @@ enum KnownTgis : Tgi {
   dirtRoadBridge = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000100B),
   /// ditto
   groundHighwayBridge = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000100C),
-  /// Elevated Highway Basic RUL
+  /// Elevated Highway Basic Network Rule
   elevatedHighwayRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000001),
-  /// Elevated Highway Advanced RUL
+  /// Elevated Highway Advanced Network Rule
   elevatedHighwayAdvancedRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000002),
-  /// Pipe Basic RUL
+  /// Pipe Basic Network Rule
   pipeRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000003),
-  /// Pipe Advanced RUL
+  /// Pipe Advanced Network Rule
   pipeAdvancedRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000004),
-  /// Rail Basic RUL
+  /// Rail Basic Network Rule
   railRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000005),
-  /// Rail Advanced RUL
+  /// Rail Advanced Network Rule
   railAdvancedRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000006),
-  /// Road Basic RUL
+  /// Road Basic Network Rule
   roadRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000007),
-  /// Road Advanced RUL
+  /// Road Advanced Network Rule
   roadAdvancedRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000008),
-  /// Street Basic RUL
+  /// Street Basic Network Rule
   streetRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000009),
-  /// Street Advanced RUL
+  /// Street Advanced Network Rule
   streetAdvancedRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x000000A),
-  /// Subway Basic RUL
+  /// Subway Basic Network Rule
   subwayRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x000000B),
-  /// Subway Advanced RUL
+  /// Subway Advanced Network Rule
   subwayAdvancedRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x000000C),
-  /// Avenue Basic RUL
+  /// Avenue Basic Network Rule
   avenueRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x000000D),
-  /// Avenue Advanced RUL
+  /// Avenue Advanced Network Rule
   avenueAdvancedRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x000000E),
-  /// Elevated Rail Basic RUL
+  /// Elevated Rail Basic Network Rule
   elevatedRailRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x000000F),
-  /// Elevated Rail Advanced RUL
+  /// Elevated Rail Advanced Network Rule
   elevatedRailAdvancedRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000010),
-  /// One-Way Road Basic RUL
+  /// One-Way Road Basic Network Rule
   oneWayRoadRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000011),
-  /// One-Way Road Advanced RUL
+  /// One-Way Road Advanced Network Rule
   oneWayRoadAdvancedRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000012),
-  /// RHW ("Dirt Road") Basic RUL
+  /// RHW ("Dirt Road") Basic Network Rule
   dirtRoadRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000013),
-  /// RHW ("Dirt Road") Advanced RUL
+  /// RHW ("Dirt Road") Advanced Network Rule
   dirtRoadAdvancedRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000014),
-  /// Monorail Basic RUL
+  /// Monorail Basic Network Rule
   monorailRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000015),
-  /// Monorail Advanced RUL
+  /// Monorail Advanced Network Rule
   monorailAdvancedRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000016),
-  /// Ground Highway Basic RUL
+  /// Ground Highway Basic Network Rule
   groundHighwayRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000017),
-  /// Ground Highway Advanced RUL
+  /// Ground Highway Advanced Network Rule
   groundHighwayAdvancedRule = Tgi(0x0A5BCF4B, 0xAA5BCF57, 0x0000018),
 }
