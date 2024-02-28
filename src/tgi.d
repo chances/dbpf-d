@@ -36,6 +36,9 @@ enum KnownTgis : Tgi {
   /// DataBase Directory Files
   /// See_Also: <a href="https://wiki.sc4devotion.com/index.php?title=DBDF">DBDF file</a> a.k.a. DIR (SC4D Encyclopedia)
   dir = Tgi(0xE86B1EEF, 0xE86B1EEF, 0x286B1F03),
+  /// Network Rules INI
+  /// See_Also: <a href="https://wiki.sc4devotion.com/index.php?title=Network_INI">Network INI</a> (SC4D Encyclopedia)
+  networkIni = Tgi(0x00000000, 0x8A5971C5, 0x8A5993B9),
   /// Intersection Ordering: Ploppable Network Rule
   /// See_Also: $(UL
   ///   $(LI <a href="https://wiki.sc4devotion.com/index.php?title=RUL0">Intersection Ordering</a> (SC4D Encyclopedia))
