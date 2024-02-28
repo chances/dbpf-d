@@ -11,6 +11,7 @@
 module dbpf.files.rul;
 
 import pry;
+import std.conv : parse, to;
 static import std.typecons;
 
 import dbpf.files;
@@ -281,7 +282,6 @@ struct TileRule {
 /// See_Also: <a href="https://wiki.sc4devotion.com/index.php?title=Individual_Network_RULs">Individual Network Rules</a> (SC4D Encyclopedia)
 auto rulParser() {
   import std.algorithm : all;
-  import std.conv : parse, to;
   import std.string : replace;
   import std.typecons : No, Yes;
 
@@ -307,11 +307,13 @@ auto rulParser() {
     auto newline = any(tk!'\r', tk!'\n', literal!"\r\n");
     auto number = range!('0', '9').rep.map!(x => x.to!uint);
     auto hexDigit = any(range!('A', 'F'), range!('a', 'f'), range!('0', '9'));
-    auto hexNumber = seq(literal!"0x", hexDigit.rep!(1, 8)).map!(x => x[1]);
-    auto transitType = any(range!('A', 'Z'), range!('a', 'z')).rep!4;
+    auto hexNumber = seq(literal!"0x", hexDigit.rep!(1, 8)).map!(x => parse!uint(x[1], 16));
+    auto alphaString = any(range!('A', 'Z'), range!('a', 'z')).rep!4;
+    auto rotation = range!('0', '3').map!(x => x.to!string.to!ubyte);
+    auto bool_ = range!('0', '1').map!(x => x == '1' ? true : false);
 
     auto header = any(
-      seq(tk!'#', transitType, tk!'#').map!(x => x[1].replace("Rules", "").transitType),
+      seq(tk!'#', alphaString, tk!'#').map!(x => x[1].replace("Rules", "").transitType),
       seq(tk!'#', literal!"Transmogrify").map!(_ => Yes.transmogrify)
     );
     auto comment = seq(tk!';', range!(32, 126).rep!0.skipWs).skipWs;
@@ -340,11 +342,11 @@ auto rulParser() {
       tk!'3',
       seq(comma, number.skipWs).map!(x => x[1]),
       // FSH or Exemplar Instance ID
-      seq(comma, hexNumber.skipWs).map!(x => parse!uint(x[1], 16)),
-      // Rotation, in degrees
-      seq(comma, range!('0', '3').skipWs).map!(x => x[1].to!string.to!ubyte),
+      seq(comma, hexNumber.skipWs).map!(x => x[1]),
+      // Rotation, x*90 in degrees
+      seq(comma, rotation.skipWs).map!(x => x[1]),
       // Whether to flip the texture
-      seq(comma, range!('0', '1').skipWs).map!(x => x[1] == '1' ? true : false)
+      seq(comma, bool_.skipWs).map!(x => x[1])
     ).map!((tokens) {
       Rule rule;
       rule.type = RuleType.asset;
@@ -410,4 +412,63 @@ unittest {
   ParserError err;
   assert(rulParser.parse(input, rules, err), err.text);
   assert(rules.transitType == NetworkId.rail);
+}
+
+/// A network rule override texture
+/// See_Also: <a href="https://wiki.sc4devotion.com/index.php?title=Network_Specs/RuleOverrides_RUL">Network Rule Overrides</a> (SC4D Encyclopedia)
+struct OverrideTexture {
+  ///
+  uint instanceId;
+  ///
+  ubyte rotation;
+  ///
+  std.typecons.Flag!"flipped" flipped;
+}
+
+/// A network rule override
+/// See_Also: <a href="https://wiki.sc4devotion.com/index.php?title=Network_Specs/RuleOverrides_RUL">Network Rule Overrides</a> (SC4D Encyclopedia)
+struct Override {
+  import std.typecons : Tuple;
+  ///
+  Tuple!(OverrideTexture, "tile", OverrideTexture, "replacement") a;
+  ///
+  Tuple!(OverrideTexture, "tile", OverrideTexture, "replacement") b;
+}
+
+/// Parse a network rule override.
+/// See_Also: <a href="https://wiki.sc4devotion.com/index.php?title=Network_Specs/RuleOverrides_RUL">Network Rule Overrides</a> (SC4D Encyclopedia)
+auto overrideParser() {
+  with(parsers!S) {
+    auto comma = tk!',';
+    auto hexDigit = any(range!('A', 'F'), range!('a', 'f'), range!('0', '9'));
+    auto hexNumber = seq(literal!"0x", hexDigit.rep!(1, 8)).map!(x => parse!uint(x[1], 16));
+    auto rotation = range!('0', '3').map!(x => x.to!string.to!ubyte);
+    auto bool_ = range!('0', '1').map!(x => x == '1' ? true : false);
+
+    auto texture = seq(hexNumber, comma, rotation.skipWs, comma, bool_.skipWs).map!((tokens) {
+      return OverrideTexture(tokens[0], tokens[2], tokens[4].to!(std.typecons.Flag!"flipped"));
+    });
+    return seq(
+      texture, comma, texture.skipWs,
+      tk!'='.skipWs,
+      texture.skipWs, comma, texture.skipWs
+    ).map!((tokens) {
+      import std.typecons : tuple;
+      return Override(
+        tuple!("tile", "replacement")(tokens[0], tokens[4]),
+        tuple!("tile", "replacement")(tokens[2], tokens[6])
+      );
+    });
+  }
+}
+
+unittest {
+  auto input = "0x03001c00,2,1,0x0324fd00,2,1=0x03aa6600,3,0,0x0324fd00,2,1".stream;
+  Override override_;
+  ParserError err;
+  assert(overrideParser.parse(input, override_, err), err.text);
+  assert(override_.a.tile.flipped == true);
+  assert(override_.a.replacement.flipped == false);
+  assert(override_.b.tile.flipped == true);
+  assert(override_.b.replacement.flipped == true);
 }
