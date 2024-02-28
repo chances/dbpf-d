@@ -89,7 +89,7 @@ NetworkId transitType(string network) {
     case "OneWayRoad": return NetworkId.oneWayRoad;
     case "DirtRoad": return NetworkId.dirtRoad;
     case "Highway": return NetworkId.groundHighway;
-    default: assert(0, "");
+    default: assert(0, "Unknown transit type: " ~ network);
   }
 }
 
