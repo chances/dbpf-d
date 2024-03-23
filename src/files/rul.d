@@ -285,6 +285,7 @@ auto rulParser() {
   import std.string : replace;
   import std.typecons : No, Yes;
 
+  /// Note: RUL0 & RUL1 rules use SENW ordering. This function expects WNES ordering.
   NetworkFlag toNetworkFlag(Flag[] flags) {
     assert(flags.length == 4);
     assert(flags.all!((flag) {
