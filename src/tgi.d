@@ -35,8 +35,15 @@ align(1):
 static assert(Tgi.alignof == 1);
 static assert(Tgi.sizeof == 12);
 
-///
-enum KnownTgis : Tgi {
+/// A Persistent Resource Key, a.k.a. Type Group Instance and `GZPersistResourceKey`, typically abbreviated TGI.
+/// See_Also: $(OL
+///   $(LI <a href="https://www.wiki.sc4devotion.com/index.php?title=Type_Group_Instance">Type Group Instance</a> (SC4D Encyclopedia))
+///   $(LI <a href="https://www.wiki.sc4devotion.com/index.php?title=Instance_ID">Instance ID</a> (SC4D Encyclopedia))
+///   $(LI <a href="https://www.wiki.sc4devotion.com/index.php?title=InstanceFormats">Instance Formats</a> (SC4D Encyclopedia))
+/// )
+enum KnownInstance : Tgi {
+  /// A null reference, e.g. indicating that a cohort is a root node when the cohort's parent is equal to this value.
+  null_ = Tgi(0, 0, 0),
   /// DataBase Directory Files
   /// See_Also: <a href="https://wiki.sc4devotion.com/index.php?title=DBDF">DBDF file</a> a.k.a. DIR (SC4D Encyclopedia)
   dir = Tgi(0xE86B1EEF, 0xE86B1EEF, 0x286B1F03),
