@@ -26,6 +26,10 @@ align(1):
   /// Instance ID
   /// See_Also: <a href="https://wiki.sc4devotion.com/index.php?title=Instance_ID">Instance ID</a> (SC4D Encyclopedia)
   uint instanceId;
+
+  /// A null reference, e.g. indicating that a cohort is a root node when the cohort's parent is equal to this value.
+  /// See_Also: `KnownInstance.null_`
+  static Tgi null_ = KnownInstance.null_;
 }
 
 static assert(Tgi.alignof == 1);

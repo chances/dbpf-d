@@ -15,6 +15,36 @@ import std.exception : enforce;
 import std.string : representation;
 
 ///
+enum FshGroup : uint {
+  /// Base and Overlay Textures
+  baseAndOverlayTextures = 0x0986135E,
+  /// Building Textures
+  buildingTextures = 0x1ABE787D,
+  /// Bridge Textures
+  bridgeTextures = 0x1ABE787D,
+  /// Misc Textures
+  miscTextures = 0x1ABE787D,
+  /// Network Textures
+  networkTextures = 0x1ABE787D,
+  /// Animation Sprites for Props
+  propAnimationSprites = 0x2A2458F9,
+  /// Animation Sprites
+  animationSprites = 0x49A593E7,
+  /// Transit Piece Masks
+  transitPieceMasks = 0x2BC2759A,
+  /// Terrain & Foundation Textures
+  terrainAndFoundationTextures = 0x891B0E1A,
+  /// Masks
+  masks = 0x891B0E1A,
+  /// Effect Textures
+  effectTextures = 0x891B0E1A,
+  /// Lot Editor Arrow Images
+  lotEditorArrowImages = 0xCB6B7BD9,
+  /// User Interface Images
+  userInterfaceImages = 0x46A006B0
+}
+
+///
 enum DirectoryId {
   /// Building textures
   building = "G354".representation,
