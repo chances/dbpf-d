@@ -245,6 +245,8 @@ enum isValidVersion(float DBPF, float V) = isValidDbpfVersion!DBPF && isValidInd
 ///
 struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
   alias Head = Header!DBPF;
+  static if (V == 7.0) alias Table = Entry;
+  else static if (V == 7.1) alias Table = ResourceEntry;
 
   import std.exception : enforce;
 
@@ -254,14 +256,12 @@ struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
   ///
   Head metadata;
   ///
-  static if (V == 7.0) Entry[] entries;
-  /// ditto
-  static if (V == 7.1) ResourceEntry[] entries;
+  Table[] entries;
 
   /// Open a DBPF archive from the given file `path`.
   this(string path) {
     import std.algorithm : equal;
-    import std.conv : parse, text, to;
+    import std.conv : text, to;
 
     this.path = path;
     this.file = std.stdio.File(path, "rb");
@@ -270,9 +270,9 @@ struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
     this.file.rawRead!Head((&metadata)[0..1]);
     enforce(metadata.magic[].equal(Head.identifier), "Input is not a DBPF archive.");
     // Ensure file version matches expectation
-    debug const version_ = metadata.version_.major.text ~ "." ~ metadata.version_.minor.text;
-    assert(
-      parse!float(version_) == DBPF,
+    const version_ = metadata.version_.major.text ~ "." ~ metadata.version_.minor.text;
+    enforce(
+      version_.to!float == DBPF,
       "Mismatched DBPF version. Expected " ~ DBPF.text ~ ", but saw " ~ version_
     );
     // Ensure index version matches expectation
