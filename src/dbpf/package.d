@@ -234,6 +234,14 @@ struct File(bool Compressed = Flag!"compressed" = false) {
   }
 }
 
+/// Thrown when an `Archive` is invalid or corrupt.
+class ArchiveException : Exception {
+  import std.exception : basicExceptionCtors;
+
+  ///
+  mixin basicExceptionCtors;
+}
+
 /// Determines whether `DBPF and `V` are valid DBPF and Index table versions.
 /// See_Also: $(UL
 ///   $(LI `isValidDbpfVersion`)
@@ -259,16 +267,21 @@ struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
   Table[] entries;
 
   /// Open a DBPF archive from the given file `path`.
+  /// Throws: `FileException` when the archive is not found, or there is some I/O error.
+  /// Throws: `ArchiveException` when the archive is invalid or corrupt.
   this(string path) {
     import std.algorithm : equal;
     import std.conv : text, to;
+    import std.file : exists, FileException;
+    import std.string : format;
 
+    if (!path.exists) throw new FileException(path, "File does not exist: " ~ path);
     this.path = path;
     this.file = std.stdio.File(path, "rb");
 
     assert(this.file.size >= Head.sizeof);
     this.file.rawRead!Head((&metadata)[0..1]);
-    enforce(metadata.magic[].equal(Head.identifier), "Input is not a DBPF archive.");
+    enforce(metadata.magic[].equal(Head.identifier), "File is not a DBPF archive.");
     // Ensure file version matches expectation
     const version_ = metadata.version_.major.text ~ "." ~ metadata.version_.minor.text;
     enforce(
@@ -276,9 +289,9 @@ struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
       "Mismatched DBPF version. Expected " ~ DBPF.text ~ ", but saw " ~ version_
     );
     // Ensure index version matches expectation
-    assert(
+    enforce(
       V == 7.1 ? metadata.indexMinorVersion == 2 : true,
-      "Mismatched index version. Expected " ~ V.text ~ ", but saw " ~ metadata.indexMinorVersion.text
+      "Mismatched index version. Expected " ~ 2.format!"%x" ~ ", but saw " ~ metadata.indexMinorVersion.format!"%x"
     );
     auto filesOffset = this.file.tell;
 
@@ -296,4 +309,13 @@ struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
   void close() {
     file.close();
   }
+}
+
+unittest {
+  import core.exception : AssertError;
+  import std.exception : assertThrown;
+  import std.file : FileException;
+
+  alias Data = Archive!();
+  assertThrown!FileException(new Data("/tmp/voidAndNull"));
 }
