@@ -167,15 +167,15 @@ struct NetworkFlag {
     Flag north;
     ///
     Flag west;
+  } else {
+    import std.bitmanip : bitfields;
+    mixin(bitfields!(
+      ubyte, "south", 8,
+      ubyte, "east", 8,
+      ubyte, "north", 8,
+      ubyte, "west", 8,
+    ));
   }
-
-  import std.bitmanip : bitfields;
-  mixin(bitfields!(
-    ubyte, "south", 8,
-    ubyte, "east", 8,
-    ubyte, "north", 8,
-    ubyte, "west", 8,
-  ));
 }
 
 static assert(NetworkFlag.sizeof == 4);
