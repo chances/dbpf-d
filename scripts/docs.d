@@ -7,7 +7,7 @@ void main() {
   import std.string : endsWith, replace, strip;
 
   auto gitRevCmd = execute(["git", "describe", "--tags", "--abbrev=0"]);
-  const DUB_VERSION = gitRevCmd.status != 0 ? "0.1.0" : gitRevCmd.output.strip;
+  const DUB_VERSION = gitRevCmd.status != 0 ? "v0.1.0" : gitRevCmd.output.strip;
 
   auto index = readText("views/index.hbs");
   write("docs/index.html", index.replace("{{ DUB_VERSION }}", DUB_VERSION));

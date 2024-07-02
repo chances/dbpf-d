@@ -16,7 +16,7 @@ DDOC=<!DOCTYPE html>
     <main>
       <a id="downloadButton" href="https://code.dlang.org/packages/dbpf">
         <div class="bs-hbtn right black">
-          <div class="content">get <strong>dbpf</strong><br><large>v{{ DUB_VERSION }}</large></div>
+          <div class="content">get <strong>dbpf</strong><br><large>{{ DUB_VERSION }}</large></div>
         </div><div class="bs-hbtn left red">
           <div class="dub-logo"></div>
         </div>
