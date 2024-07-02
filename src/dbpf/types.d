@@ -60,9 +60,9 @@ align(1):
 
   ///
   int value() inout @property {
-    int val = *cast(int*)&payload & 0xFFFFFF;
-    if (val & 0x800000)
-      val |= 0xFF000000;
+    int val;
+    version(BigEndian) val = (payload[0] << 16) | (payload[1] << 8) | payload[2];
+    else val = (payload[2] << 16) | (payload[1] << 8) | payload[0];
     return val;
   }
 
@@ -103,6 +103,8 @@ static assert(int24.sizeof == 3);
 static assert(int24.alignof == 1);
 
 unittest {
+  import std.conv : text;
+
   int24[3] a;
   assert(a.sizeof == 9);
 
@@ -110,15 +112,15 @@ unittest {
   a[1] = 8_388_607;
   assert(a[1] == 8_388_607);
   // Test for buffer overflow:
-  assert(a[0] == 0);
-  assert(a[2] == 0);
+  assert(a[0] == 0, a[0].text);
+  assert(a[2] == 0, a[2].text);
 
   // Overflow
   a[1] = 8_388_608;
-  assert(a[1] == -8_388_608);
+  assert(a[1] == -8_388_608, a[1].text);
   // Test for buffer overflow:
-  assert(a[0] == 0);
-  assert(a[2] == 0);
+  assert(a[0] == 0, a[0].text);
+  assert(a[2] == 0, a[2].text);
 
   // Negative value
   a[1] = -1;
