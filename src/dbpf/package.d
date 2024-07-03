@@ -11,6 +11,7 @@
 module dbpf;
 
 static import std.stdio;
+import std.sumtype : SumType;
 import std.traits : isFloatingPoint;
 
 public import dbpf.tgi;
@@ -173,6 +174,11 @@ align(1):
   uint size;
 }
 
+///
+alias TableEntry = SumType!(Entry, ResourceEntry);
+///
+alias Table = TableEntry[];
+
 static assert(Entry.alignof == 1);
 static assert(Entry.sizeof == 20);
 static assert(ResourceEntry.alignof == 1);
@@ -251,10 +257,8 @@ class ArchiveException : Exception {
 enum isValidVersion(float DBPF, float V) = isValidDbpfVersion!DBPF && isValidIndexVersion!V;
 
 ///
-struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
+struct Archive(float DBPF) if (isValidDbpfVersion!DBPF) {
   alias Head = Header!DBPF;
-  static if (V == 7.0) alias Table = Entry;
-  else static if (V == 7.1) alias Table = ResourceEntry;
 
   import std.exception : enforce;
 
@@ -264,13 +268,14 @@ struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
   ///
   Head metadata;
   ///
-  Table[] entries;
+  Table entries;
 
   /// Open a DBPF archive from the given file `path`.
   /// Throws: `FileException` when the archive is not found, or there is some I/O error.
   /// Throws: `ArchiveException` when the archive is invalid or corrupt.
   this(string path) {
-    import std.algorithm : equal;
+    import std.algorithm : equal, map;
+    import std.array : array;
     import std.conv : text, to;
     import std.file : exists, FileException;
     import std.string : format;
@@ -288,16 +293,16 @@ struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
       version_.to!float == DBPF,
       "Mismatched DBPF version. Expected " ~ DBPF.text ~ ", but saw " ~ version_
     );
-    // Ensure index version matches expectation
-    enforce(
-      V == 7.1 ? metadata.indexMinorVersion == 2 : true,
-      "Mismatched index version. Expected " ~ 2.format!"%x" ~ ", but saw " ~ metadata.indexMinorVersion.format!"%x"
-    );
-    auto filesOffset = this.file.tell;
 
+    auto filesOffset = this.file.tell;
     this.file.seek(metadata.indexOffset);
-    this.entries = new Table[metadata.indexEntryCount];
-    this.file.rawRead!Table((entries.ptr)[0..entries.length]);
+    // FIXME: Use specific type, i.e. Entry or ResourceEntry
+    auto entries = new Entry[metadata.indexEntryCount];
+    this.file.rawRead!Entry((entries.ptr)[0..entries.length]);
+    this.entries = entries.map!((x) {
+      TableEntry entry = x;
+      return entry;
+    }).array;
 
     this.file.seek(filesOffset);
   }
@@ -311,11 +316,21 @@ struct Archive(float DBPF = 1, float V = 7.0) if (isValidVersion!(DBPF, V)) {
   }
 }
 
+///
+alias SimCity4Archive = Archive!1;
+///
+alias Sims2Archive = Archive!(1.1);
+///
+alias SporeArchive = Archive!(2.0);
+///
+alias Sims3Archive = Archive!(2.0);
+///
+alias SimCity2013Archive = Archive!(3.0);
+
 unittest {
   import core.exception : AssertError;
   import std.exception : assertThrown;
   import std.file : FileException;
 
-  alias Data = Archive!();
-  assertThrown!FileException(new Data("/tmp/voidAndNull"));
+  assertThrown!FileException(new SimCity4Archive("/tmp/voidAndNull"));
 }
