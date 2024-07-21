@@ -129,6 +129,11 @@ struct Version {
   static const float sims3 = 2;
   /// SimCity (2013)
   static const float simCity = 3;
+
+  ///
+  static const Version simCity4Index = Version(7, 0);
+  ///
+  static const Version sc4Index = Version(7, 0);
 align(1):
   ///
   uint major;
@@ -174,15 +179,29 @@ align(1):
   uint size;
 }
 
+static assert(Entry.alignof == 1);
+static assert(Entry.sizeof == 20);
+static assert(ResourceEntry.alignof == 1);
+static assert(ResourceEntry.sizeof == 24);
+
 ///
 alias TableEntry = SumType!(Entry, ResourceEntry);
 ///
 alias Table = TableEntry[];
 
-static assert(Entry.alignof == 1);
-static assert(Entry.sizeof == 20);
-static assert(ResourceEntry.alignof == 1);
-static assert(ResourceEntry.sizeof == 24);
+///
+alias EntryFilter = bool function(TableEntry entry);
+import std.conv : asOriginalType;
+///
+bool entryOf(alias T)(TableEntry entry) if (is(typeof(T) == Tgi) || is(typeof(T.asOriginalType) == Tgi)) {
+  import std.sumtype : match;
+
+  const Tgi tgi = T.asOriginalType;
+  return entry.match!(
+    (Entry e) => e.tgi,
+    (ResourceEntry e) => e.tgi,
+  ) == tgi;
+}
 
 /// A Hole Table contains the location and size of all holes in a DBPF file.
 /// Remarks:
@@ -195,7 +214,7 @@ struct HoleTable {
   uint size;
 }
 
-/// Occurs before `File.contents` only if the `File` is compressed.
+/// Occurs before `File.contents`, if and only if the `File` is compressed.
 struct FileHeader {
   import dbpf.types : int24;
 align(1):
@@ -206,13 +225,14 @@ align(1):
   /// See_Also: <a href="https://www.wiki.sc4devotion.com/index.php?title=DBPF_Compression">DBPF Compression</a> (SC4D Encyclopedia)
   const ushort compressionId = 0x10FB;
   /// Uncompressed size of the file, in bytes.
+  // FIXME: in Big-Endian format (hi-byte to lo-byte)
   int24 uncompressedSize;
 }
 
 static assert(FileHeader.alignof == 1);
 static assert(FileHeader.sizeof == 9);
 
-import std.typecons : Flag;
+import std.typecons : Flag, No, Yes;
 
 /// Files fill the bulk of a DBPF archive.
 ///
@@ -221,7 +241,7 @@ import std.typecons : Flag;
 /// Each file is either uncompressed or compressed. To check if a file is compressed you first need to read the DIR
 /// file, if it exists. If no <a href="https://www.wiki.sc4devotion.com/index.php?title=DIR">DIR</a> entry exists,
 /// then no files within the package are compressed.
-struct File(bool Compressed = Flag!"compressed" = false) {
+struct File(Flag!"compressed" Compressed = false) {
   alias contents this;
   /// Exists only if this file is compressed.
   static if (Compressed) FileHeader header;
@@ -239,6 +259,11 @@ struct File(bool Compressed = Flag!"compressed" = false) {
     else return this.contents.length.to!uint;
   }
 }
+
+/// ditto
+alias UncompressedFile = File!(No.compressed);
+/// ditto
+alias CompressedFile = File!(Yes.compressed);
 
 /// Thrown when an `Archive` is invalid or corrupt.
 class ArchiveException : Exception {
@@ -269,15 +294,20 @@ struct Archive(float DBPF) if (isValidDbpfVersion!DBPF) {
   Head metadata;
   ///
   Table entries;
+  /// If no <a href="https://www.wiki.sc4devotion.com/index.php?title=DIR">DIR</a> entry exists,
+  /// then no files within the package are compressed.
+  const UncompressedFile* directory;
 
   /// Open a DBPF archive from the given file `path`.
   /// Throws: `FileException` when the archive is not found, or there is some I/O error.
   /// Throws: `ArchiveException` when the archive is invalid or corrupt.
   this(string path) {
-    import std.algorithm : equal, map;
+    import dbpf.tgi : KnownInstance;
+    import std.algorithm : find, equal, map;
     import std.array : array;
     import std.conv : text, to;
     import std.file : exists, FileException;
+    import std.range : empty;
     import std.string : format;
 
     if (!path.exists) throw new FileException(path, "File does not exist: " ~ path);
@@ -293,26 +323,48 @@ struct Archive(float DBPF) if (isValidDbpfVersion!DBPF) {
       version_.to!float == DBPF,
       "Mismatched DBPF version. Expected " ~ DBPF.text ~ ", but saw " ~ version_
     );
+    // Ensure index version matches expectation
+    enforce(metadata.indexVersion.major == 7, "Archive's index is of an unrecognized version.");
 
     auto filesOffset = this.file.tell;
     this.file.seek(metadata.indexOffset);
-    // FIXME: Use specific type, i.e. Entry or ResourceEntry
-    auto entries = new Entry[metadata.indexEntryCount];
-    this.file.rawRead!Entry((entries.ptr)[0..entries.length]);
-    this.entries = entries.map!((x) {
+
+    TableEntry toAbstractEntry(T)(T x) if (is(T : Entry) || is(T : ResourceEntry)) {
       TableEntry entry = x;
       return entry;
-    }).array;
+    }
+
+    // Read index of file entries
+    auto indexFileDirectory(T)() {
+      auto entries = new T[metadata.indexEntryCount];
+      this.file.rawRead!T((entries.ptr)[0..entries.length]);
+      this.entries = entries.map!(toAbstractEntry!T).array;
+
+      // Parse index of compressed files, if it exists
+      const dirEntries = entries.find!(entry => entry.tgi == KnownInstance.dir);
+      // TODO: Parse the file
+      if (!dirEntries.empty) return new UncompressedFile(this.read!T(dirEntries[0]));
+      else return null;
+    }
+
+    if (metadata.indexVersion.minor == 0) this.directory = indexFileDirectory!Entry();
+    else if (metadata.indexVersion.minor == 1) this.directory = indexFileDirectory!ResourceEntry();
 
     this.file.seek(filesOffset);
   }
   ~this() {
-    file.close();
+    if (file.isOpen) file.close();
   }
 
   ///
   void close() {
     file.close();
+  }
+
+  ubyte[] read(T)(T entry) if (is(T : Entry) || is(T : ResourceEntry)) {
+    if (!file.isOpen) file = std.stdio.File(path, "rb");
+    this.file.seek(entry.offset);
+    return this.file.rawRead(new ubyte[entry.size]);
   }
 }
 

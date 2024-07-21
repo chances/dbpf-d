@@ -30,6 +30,10 @@ align(1):
   /// A null reference, e.g. indicating that a cohort is a root node when the cohort's parent is equal to this value.
   /// See_Also: `KnownInstance.null_`
   static Tgi null_ = KnownInstance.null_;
+
+  bool opEquals()(auto ref const Tgi s) const {
+    return typeId == s.typeId && groupId == s.groupId && instanceId == s.instanceId;
+  }
 }
 
 static assert(Tgi.alignof == 1);
