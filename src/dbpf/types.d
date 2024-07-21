@@ -46,7 +46,7 @@ unittest {
   assert(id.value.equal("foo"));
 }
 
-/// A 24-bit signed integer.
+/// A Big-Endian 24-bit unsigned integer.
 /// See_Also: <a href="https://forum.dlang.org/thread/sarwanlrindyawtztlgh@forum.dlang.org"24-bit int</a> (D Forum)
 struct int24 {
 align(1):
