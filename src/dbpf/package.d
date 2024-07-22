@@ -16,6 +16,8 @@ import std.traits : isFloatingPoint;
 
 public import dbpf.tgi;
 
+// TODO: https://github.com/nsgomez/gzcom-dll
+
 /// Determines whether `V` is a valid DBPF version number.
 /// See_Also: `Version`
 /// Remarks: $(UL
